@@ -2,19 +2,22 @@
 ## Tipos Primitivos
 
 - Caracteres (Beta): Alfanuméricos.
-- Booleanos (Calidad): chévere y chimbo
+- Booleanos (Calidad): `chévere` y `chimbo`
 - Enteros (Lucas): Números
 - Flotantes (Sencillo): 1.15
+
 ## Tipos Compuestos
 - Arreglos (Bululú): [ a, s, d, f ], `tipo nombre[tamaño], lucas nombre[] = [1, 2, 3]`
 - String (Labia): “asfda”
 - Registros (Saime): `saime nombre { tipo valor }`
 - Variantes (Pastelero): `pastelero nombre { lucas: lucas }`
-- Apuntador (Guachimán): 👉a
+- Apuntador (Guachimán): `👉a`
+
 ## Palabras reservadas
 ### Mecanismos de selección
 If: porsia, else: cónchale
 ```
+Ej.
 porsia (asdfa = asdf) {
 	cuerpo
 } conchale {
@@ -25,9 +28,9 @@ porsia (asdfa = asdf) {
 ### Mecanismos de repetición
 For: 
 ```
-para vaina en bululú {}
+para a en bululú {}
 
-para vaina de lucas a lucas {}
+para a de lucas a lucas {}
 
 Ej:
 lucas a[3] = [1, 2, 3];
@@ -64,13 +67,16 @@ lucas chamba valorDelBono(gente👉 persona) {
 	fuimonos persona.bolivitas;
 }
 ```
-Return: fuimonos
+**Return: `fuimonos`**
 
 # Otros
-Par ordenado (Cuadre): (a, b)
-Error: Guácala
-Print: Dígalo
-Input: Rotalo
+Algunas cosas generales definidas dentro del lenguaje:
+- Secuenciación: `;`
+- Par ordenado (Cuadre): `(a, b)`
+- Error: Guácala
+- Print: Dígalo
+- Input: Rotalo
+- Main (como en C): `vacio chisme() { fuimonos; }`
 
 # Programas
 ## Hola mundo
@@ -110,7 +116,6 @@ vacio chisme() {
 ```
 
 ## Fibonacci
-
 ```
 lucas chamba nthFibonacci(lucas n) {
 	porsia (n <= 1) {
