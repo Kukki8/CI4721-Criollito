@@ -7,21 +7,31 @@
 - Flotantes (Sencillo): 1.15
 
 ## Tipos Compuestos
+
 - Arreglos (Bululú): [ a, s, d, f ], `tipo nombre[tamaño], lucas nombre[] = [1, 2, 3]`
 - String (Labia): “asfda”
 - Registros (Saime): `saime nombre { tipo valor }`
 - Variantes (Pastelero): `pastelero nombre { lucas: lucas }`
 - Apuntador (Guachimán): `👉a`
 
+## Operadores
+
+- Booleanos: `&&`, `||`, `!`, `separeceigualito`, `nosepareceigualito`, `mayolke`, `menolke`, `mayolke?`, `menolke?`
+- Aritméticos: `+`, `-`, `*`, `/`, `%`
+- Asignación: `=`
+
 ## Palabras reservadas
+
 ### Mecanismos de selección
 If: porsia, else: cónchale
 ```
 Ej.
 porsia (asdfa = asdf) {
 	cuerpo
-} conchale {
+} conchale porsia (asdfa = asdf) {
 	cuerpo
+} conchale {
+    cuerpo
 }
 ```
 
@@ -76,9 +86,10 @@ Algunas cosas generales definidas dentro del lenguaje:
 - Error: Guácala
 - Print: Dígalo
 - Input: Rotalo
-- Main (como en C): `vacio chisme() { fuimonos; }`
+- porsia (asdfa = asdf) Main (como en C): `vacio chisme() { fuimonos; }`
 
 # Programas
+
 ## Hola mundo
 ```
 vacio chisme() {
@@ -91,7 +102,7 @@ vacio chisme() {
 ```
 vacio chisme() {
 	digalo("Ingresa tu nombre");
-	labia nombre = rotalo;
+	labia nombre = rotalo();
 	digalo(nombre);
 	fuimonos;
 }
@@ -103,7 +114,7 @@ Sumar todos los números de la entrada hasta que se ingrese cero (0)
 vacio chisme() {
 	lucas res = 0;
 	mientras (chevere) echale pichon {
-		lucas numero = rotalo;
+		lucas numero = rotalo();
 		porsia (numero == 0) {
 			paralo;
 		} conchale {
@@ -124,7 +135,7 @@ lucas chamba nthFibonacci(lucas n) {
 	fuimonos nthFibonacci(n-1) + nthFibonacci(n-2);
 }
 vacio chisme() {
-	lucas n = rotalo;
+	lucas n = rotalo();
 	lucas res = nthFibonacci(n);
 	fuimonos res;
 }
@@ -166,5 +177,66 @@ lucas[][] mulMat(lucas👉 a[][], lucas👉 b[][]) {
 
 vacio chisme() {
 	fuimonos;
+}
+```
+
+## Algoritmo Kruskal
+**TODO**
+```
+```
+
+## Intérprete del lenguaje Brainf*ck
+
+```
+vacio chisme() {
+    digalo("Ingresa el código de Brainf*ck: ");
+    labia codigo = rotalo();
+    lucas cinta[30000];
+    lucas puntero = 0;
+    lucas i = 0;
+
+    mientras (i menolke codigo.sais()) echale pichon {
+        porsia (codigo[i] separeceigualito '>') {
+            puntero = puntero + 1;
+        } conchale porsia (codigo[i] separeceigualito '<' && puntero mayolke 0) {
+            puntero = puntero - 1;
+        } conchale porsia (codigo[i] separeceigualito '+') {
+            cinta[puntero] = cinta[puntero] + 1;
+        } conchale porsia (codigo[i] separeceigualito '-') {
+            cinta[puntero] = cinta[puntero] - 1;
+        } conchale porsia (codigo[i] separeceigualito '.') {
+            digalo(cinta[puntero]);
+        } conchale porsia (codigo[i] separeceigualito ',') {
+            cinta[puntero] = rotalo();
+        } conchale porsia (codigo[i] separeceigualito '[') {
+            porsia (cinta[puntero] separeceigualito 0) {
+                lucas contador = 1;
+                mientras (contador > 0) echale pichon {
+                    i = i + 1;
+                    porsia (codigo[i] separeceigualito '[') {
+                        contador = contador + 1;
+                    } conchale porsia (codigo[i] separeceigualito ']') {
+                        contador = contador - 1;
+                    }
+                }
+            }
+        } conchale porsia (codigo[i] separeceigualito ']') {
+            porsia (cinta[puntero] != 0) {
+                lucas contador = 1;
+                mientras (contador > 0) echale pichon {
+                    i = i - 1;
+                    porsia (codigo[i] separeceigualito '[') {
+                        contador = contador - 1;
+                    } conchale porsia (codigo[i] separeceigualito ']') {
+                        contador = contador + 1;
+                    }
+                }
+            }
+        } conchale {
+            guacala("No se reconoce el caracter");
+        }
+        i = i + 1;
+    }
+    fuimonos;
 }
 ```
