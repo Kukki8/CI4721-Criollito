@@ -1,19 +1,21 @@
 # Criollito
+Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, pero con un toque criollo venezolano. La idea es que sea un lenguaje de programación sencillo, divertido y fácil de entender para cualquier persona que hable español.
+
 ## Tipos Primitivos
 
-- Caracteres (Beta): Alfanuméricos.
-- Booleanos (Calidad): `chévere` y `chimbo`
-- Enteros (Lucas): Números
-- Flotantes (Sencillo): 1.15
+- Caracteres (beta): Alfanuméricos.
+- Booleanos (calidad): `chevere` y `chimbo`
+- Enteros (lucas): Números, pueden ser positivos o negativos.
+- Flotantes (sencillo): Números con decimales.
 
 ## Tipos Compuestos
 
-- Arreglos (Bululú): [ a, s, d, f ], `tipo nombre[tamaño], lucas nombre[] = [1, 2, 3]`
-- String (Labia): “asfda”
-- Registros (Saime): `saime nombre { tipo valor }`
-- Variantes (Pastelero): `pastelero nombre { lucas: lucas }`
-- Apuntador (Guachimán): `👉a`
-- Desreferenciador: '<- a' // Reemplazar por manito
+- Arreglos (bululu): [ a, s, d, f ], `tipo nombre[tamaño], lucas nombre[] = [1, 2, 3]`
+- String (labia): “asfda”
+- Registros (saime): `saime nombre { tipo valor }`
+- Variantes (pastelero): `pastelero nombre { lucas: lucas }`
+- Apuntador (guachiman): `👉a`
+- Desreferenciación: `👈a`
 
 ## Operadores
 
@@ -37,6 +39,8 @@ porsia (asdfa = asdf) {
 ```
 
 ### Mecanismos de repetición
+
+#### Determinado:
 For: 
 ```
 para a en bululú {}
@@ -48,6 +52,8 @@ lucas a[3] = [1, 2, 3];
 para x en a {}
 para x de 0 a 5 {}
 ```
+
+#### Indeterminado:
 While:
 ```
 mientras (condicion) echale pichon {}
@@ -55,8 +61,12 @@ mientras (condicion) echale pichon {}
 Ej:
 mientras (x < 3) echale pichon {paralo}
 ```
-Break: Paralo, continue: palante
+#### Control en los mecanismos de repetición
+- Break: Paralo
+- Continue: Palante
+
 ### Subrutinas
+Las subrutinas son de primer orden. Tienen pasaje de parámetros por valor y por referencia. El pasaje de parámetros por defecto es por valor. En caso de querer pasar por referencia, se debe indicar con el símbolo `👉` al final del tipo de dato.
 ```
 tipo chamba (tipo a) {
 	cuerpo
@@ -85,12 +95,12 @@ lucas chamba valorDelBono(gente👉 persona) {
 Algunas cosas generales definidas dentro del lenguaje:
 - Secuenciación: `;`
 - Par ordenado (Cuadre): `(a, b)`
-- Error: Guácala
-- Print: Dígalo
+- Error: Guacala
+- Print: Digalo
 - Input: Rotalo
-- porsia (asdfa = asdf) Main (como en C): `vacio chisme() { fuimonos; }`
+- Main (como en C): `vacio chisme() { fuimonos; }`
 
-# Programas
+# Programas en Criollito
 
 ## Hola mundo
 ```
@@ -111,7 +121,6 @@ vacio chisme() {
 ```
 
 ## Sumar números
-Sumar todos los números de la entrada hasta que se ingrese cero (0)
 ```
 vacio chisme() {
 	lucas res = 0;
@@ -274,7 +283,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 	}
 
 	// Crear lista de prioridades
-	listaPrioridad aristasOrdenadas = crearListPrioridad(<-grafito.aristas);
+	listaPrioridad aristasOrdenadas = crearListPrioridad(👈grafito.aristas);
 
 	aristasOrdenadas = ordernarLista(aristasOrdenadas);
 
@@ -297,7 +306,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 		}
 
 		// Verifica que no se pase del limite de las aristas
-		porsia (contadorAristas separeceigualito <-grafito.vertices - 1) {
+		porsia (contadorAristas separeceigualito 👈grafito.vertices - 1) {
 			paralo;
 		}
 	}
