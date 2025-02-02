@@ -98,7 +98,7 @@ Algunas cosas generales definidas dentro del lenguaje:
 - Input: Rotalo
 - Main (como en C): `vacio chisme() { fuimonos; }`
 
-# Programas
+# Programas en Criollito
 
 ## Hola mundo
 ```
