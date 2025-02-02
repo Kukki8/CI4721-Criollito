@@ -15,6 +15,7 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 - Registros (saime): `saime nombre { tipo valor }`
 - Variantes (pastelero): `pastelero nombre { lucas: lucas }`
 - Apuntador (guachiman): `👉a`
+- Desreferenciación: `👈a`
 
 ## Operadores
 
