@@ -1,10 +1,12 @@
 # Criollito
+Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, pero con un toque criollo venezolano. La idea es que sea un lenguaje de programación sencillo, divertido y fácil de entender para cualquier persona que hable español.
+
 ## Tipos Primitivos
 
 - Caracteres (Beta): Alfanuméricos.
 - Booleanos (Calidad): `chévere` y `chimbo`
-- Enteros (Lucas): Números
-- Flotantes (Sencillo): 1.15
+- Enteros (Lucas): Números, pueden ser positivos o negativos.
+- Flotantes (Sencillo): Números con decimales.
 
 ## Tipos Compuestos
 
@@ -36,6 +38,8 @@ porsia (asdfa = asdf) {
 ```
 
 ### Mecanismos de repetición
+
+#### Determinado:
 For: 
 ```
 para a en bululú {}
@@ -47,6 +51,8 @@ lucas a[3] = [1, 2, 3];
 para x en a {}
 para x de 0 a 5 {}
 ```
+
+#### Indeterminado:
 While:
 ```
 mientras (condicion) echale pichon {}
@@ -54,8 +60,12 @@ mientras (condicion) echale pichon {}
 Ej:
 mientras (x < 3) echale pichon {paralo}
 ```
-Break: Paralo
+#### Control en los mecanismos de repetición
+- Break: Paralo
+- Continue: Palante
+
 ### Subrutinas
+Las subrutinas son de primer orden. Tienen pasaje de parámetros por valor y por referencia. El pasaje de parámetros por defecto es por valor. En caso de querer pasar por referencia, se debe indicar con el símbolo `👉` al final del tipo de dato.
 ```
 tipo chamba (tipo a) {
 	cuerpo
@@ -83,10 +93,10 @@ lucas chamba valorDelBono(gente👉 persona) {
 Algunas cosas generales definidas dentro del lenguaje:
 - Secuenciación: `;`
 - Par ordenado (Cuadre): `(a, b)`
-- Error: Guácala
-- Print: Dígalo
+- Error: Guacala
+- Print: Digalo
 - Input: Rotalo
-- porsia (asdfa = asdf) Main (como en C): `vacio chisme() { fuimonos; }`
+- Main (como en C): `vacio chisme() { fuimonos; }`
 
 # Programas
 
@@ -109,7 +119,6 @@ vacio chisme() {
 ```
 
 ## Sumar números
-Sumar todos los números de la entrada hasta que se ingrese cero (0)
 ```
 vacio chisme() {
 	lucas res = 0;
