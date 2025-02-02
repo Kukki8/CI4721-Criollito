@@ -13,6 +13,7 @@
 - Registros (Saime): `saime nombre { tipo valor }`
 - Variantes (Pastelero): `pastelero nombre { lucas: lucas }`
 - Apuntador (Guachimán): `👉a`
+- Desreferenciador: '<- a' // Reemplazar por manito
 
 ## Operadores
 
@@ -54,7 +55,7 @@ mientras (condicion) echale pichon {}
 Ej:
 mientras (x < 3) echale pichon {paralo}
 ```
-Break: Paralo
+Break: Paralo, continue: palante
 ### Subrutinas
 ```
 tipo chamba (tipo a) {
@@ -73,6 +74,7 @@ Ej. pasaje de parámetros por referencia:
 saime gente {
 	lucas bolivitas;
 }
+
 lucas chamba valorDelBono(gente👉 persona) {
 	fuimonos persona.bolivitas;
 }
@@ -182,7 +184,157 @@ vacio chisme() {
 
 ## Algoritmo Kruskal
 **TODO**
+
 ```
+saime Grafito {
+	Arista aristas[];
+	lucas vertices;
+}
+
+saime Arista {
+	lucas valor;
+	lucas origen;
+	lucas objetivo;
+}
+
+saime listaPrioridad{
+	Arista elementos[];
+}
+
+listaPrioridad crearListPrioridad(Arista aristas[]) {
+
+	listaPrioridad nuevaLista;
+	nuevaLista.elementos[aristas.sais()];
+
+	lucas i = 0;
+
+	mientras( i menolke nuevaLista.elementos.sais() + 1 ) echale pichon {
+		nuevaLista.elementos[i] = miLista.elementos[i];
+		i = i + 1;
+	}
+
+	fuimonos nuevaLista;
+
+}
+
+listaPrioridad agregarAristaListaPrioridad(listaPrioridad miLista, Arista elemento) {
+
+	nuevoTamano = miLista.elementos.sais() + 1;
+	listaPrioridad nuevaLista;
+	nuevaLista.elementos[nuevoTamano];
+	lucas i = 0;
+
+	mientras( i menolke nuevaLista.elementos.sais()) echale pichon {
+		nuevaLista.elementos[i] = miLista.elementos[i];
+		i = i + 1;
+	}
+
+	nuevaLista.elementos[nuevoTamano - 1] = elemento;
+	fuimonos ordernarLista(nuevaLista);
+
+}
+
+listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
+	
+	lucas i = 0;
+	lucas j = i + 1;
+	lucas ronda = 0;
+
+	mientras(ronda menolke listaDesordenada.elementos.sais() + 1) echale pichon {
+
+		porsia (j separeceigualito listaDesordenada.elementos.sais()){
+			ronda = ronda + 1;
+			i = 0 ;
+			j = 1;
+			palante;
+		}
+
+		conchale porsia (listaDesordenada.elementos[i].valor mayolke listaDesordenada.elementos[j].valor ) {
+			Arista aux = listaDesordenada.elementos[i];
+			listaDesordenada.elementos[i] = listaDesordenada.elementos[j]
+			listaDesordenada.elementos[j] = aux;
+		}
+
+		i = i + 1;
+		j = j + 1;
+	}
+
+	fuimonos listaDesordenada;
+}
+
+Grafo Kruskal(Grafito👉 grafito) {
+	
+	lucas papa[n];
+    lucas nivel[n];
+
+	para i de 0 a n {
+
+		papa[i] = -1;
+		nivel[i] = 1;
+	}
+
+	// Crear lista de prioridades
+	listaPrioridad aristasOrdenadas = crearListPrioridad(<-grafito.aristas);
+
+	aristasOrdenadas = ordernarLista(aristasOrdenadas);
+
+	lucas resultado = 0;
+	lucas contadorAristas = 0;
+
+	para arista en aristasOrdenadas {
+
+		lucas w = arista.valor;
+		lucas x = arista.origen;
+		lucas y = arista.objetivo;
+
+		// Verificar si hay un ciclo
+
+		porsia (buscarRaiz(x,papa) nosepareceigualito buscarRaiz(y,papa)) {
+			unir(x, y, papa, nivel);
+			resultado = resultado +  w;
+
+			contadorAristas = contadorAristas + 1;
+		}
+
+		// Verifica que no se pase del limite de las aristas
+		porsia (contadorAristas separeceigualito <-grafito.vertices - 1) {
+			paralo;
+		}
+	}
+	digalo(resultado);
+
+}
+  
+// Funcion que busca la raiz de los sets creados durante el algoritmo
+lucas buscarRaiz(lucas i, lucas👉 padres[])
+{
+	porsia(padres[i] == -1)
+		fuimonos i;
+
+	padres[i] = buscarRaiz(padres[i],padres);
+	fuimonos padres[i];
+}
+
+    
+vacio unir(lucas x, lucas y, lucas👉 padres[], lucas👉 nivel[])
+{
+	lucas s1 = buscarRaiz(x,padres);
+	lucas s2 = buscarRaiz(y,padres);
+
+	porsia (s1 nosepareceigualito s2) {
+		porsia (nivel[s1] menolke nivel[s2]) {
+			padres[s1] = s2;
+		}
+		conchale porsia (nivel[s1] mayolke nivel[s2]) {
+			padres[s2] = s1;
+		}
+		conchale {
+			padres[s2] = s1;
+			nivel[s1] = nivel[s1] + 1;
+		}
+	}
+}
+
 ```
 
 ## Intérprete del lenguaje Brainf*ck
