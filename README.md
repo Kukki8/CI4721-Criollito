@@ -3,18 +3,18 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 
 ## Tipos Primitivos
 
-- Caracteres (Beta): Alfanuméricos.
-- Booleanos (Calidad): `chévere` y `chimbo`
-- Enteros (Lucas): Números, pueden ser positivos o negativos.
-- Flotantes (Sencillo): Números con decimales.
+- Caracteres (beta): Alfanuméricos.
+- Booleanos (calidad): `chevere` y `chimbo`
+- Enteros (lucas): Números, pueden ser positivos o negativos.
+- Flotantes (sencillo): Números con decimales.
 
 ## Tipos Compuestos
 
-- Arreglos (Bululú): [ a, s, d, f ], `tipo nombre[tamaño], lucas nombre[] = [1, 2, 3]`
-- String (Labia): “asfda”
-- Registros (Saime): `saime nombre { tipo valor }`
-- Variantes (Pastelero): `pastelero nombre { lucas: lucas }`
-- Apuntador (Guachimán): `👉a`
+- Arreglos (bululu): [ a, s, d, f ], `tipo nombre[tamaño], lucas nombre[] = [1, 2, 3]`
+- String (labia): “asfda”
+- Registros (saime): `saime nombre { tipo valor }`
+- Variantes (pastelero): `pastelero nombre { lucas: lucas }`
+- Apuntador (guachiman): `👉a`
 
 ## Operadores
 
