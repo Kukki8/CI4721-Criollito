@@ -3,16 +3,16 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 
 ## Tipos Primitivos
 
-- Caracteres (beta): Alfanuméricos.
+- Caracteres (beta): ASCII.
 - Booleanos (calidad): `chevere` y `chimbo`
 - Enteros (lucas): Números, pueden ser positivos o negativos.
-- Flotantes (sencillo): Números con decimales.
+- Flotantes (sencillo): Números con decimales. Se reconocen por el punto antes de los decimales.
 
 ## Tipos Compuestos
 
-- Arreglos (bululu): [ a, s, d, f ], `tipo nombre[tamaño], lucas nombre[] = [1, 2, 3]`
-- String (labia): “asfda”
-- Registros (saime): `saime nombre { tipo valor }`
+- Arreglos (bululu): `tipo nombre[tamaño]`. Por ejemplo: `lucas arreglo[3] = [1, 2, 3]`
+- String (labia): `“Lorem ipsum”`. Por ejemplo: `labia nombre[10] = “Hola mundo”`
+- Registros (saime): `saime nombre { tipo valor; }`. Por ejemplo: `saime persona { labia nombre[20]; lucas edad; }`
 - Variantes (pastelero): `pastelero nombre { lucas: lucas }`
 - Apuntador (guachiman): `👉a`
 - Desreferenciación: `👈a`
@@ -26,12 +26,12 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 ## Palabras reservadas
 
 ### Mecanismos de selección
-If: porsia, else: cónchale
+If: `porsia`, else: `conchale`
 ```
 Ej.
-porsia (asdfa = asdf) {
+porsia (a separeceigualito b) {
 	cuerpo
-} conchale porsia (asdfa = asdf) {
+} conchale porsia (b separeceigualito c) {
 	cuerpo
 } conchale {
     cuerpo
@@ -41,7 +41,7 @@ porsia (asdfa = asdf) {
 ### Mecanismos de repetición
 
 #### Determinado:
-For: 
+For: `para a en bululú {}`
 ```
 para a en bululú {}
 
@@ -49,28 +49,32 @@ para a de lucas a lucas {}
 
 Ej:
 lucas a[3] = [1, 2, 3];
-para x en a {}
-para x de 0 a 5 {}
+para x en a {
+    digalo(x);
+}
+para x de 0 a 5 {
+    digalo(x);
+}
 ```
 
 #### Indeterminado:
-While:
+While: `mientras (condición) echale pichón {}`
 ```
 mientras (condicion) echale pichon {}
 
 Ej:
-mientras (x < 3) echale pichon {paralo}
+mientras (x menolke 3) echale pichon { paralo }
 ```
 #### Control en los mecanismos de repetición
-- Break: Paralo
-- Continue: Palante
+- Break: `paralo`
+- Continue: `palante`
 
 ### Subrutinas
 Las subrutinas son de primer orden. Tienen pasaje de parámetros por valor y por referencia. El pasaje de parámetros por defecto es por valor. En caso de querer pasar por referencia, se debe indicar con el símbolo `👉` al final del tipo de dato.
 ```
 tipo chamba (tipo a) {
 	cuerpo
-	fuimonos vaina<tipo>;
+	fuimonos a;
 }
 
 Ej. pasaje de parámetros por valor (por defecto):
@@ -95,9 +99,9 @@ lucas chamba valorDelBono(gente👉 persona) {
 Algunas cosas generales definidas dentro del lenguaje:
 - Secuenciación: `;`
 - Par ordenado (Cuadre): `(a, b)`
-- Error: Guacala
-- Print: Digalo
-- Input: Rotalo
+- Error: `guacala("Mensaje de error")`
+- Print: `digalo("Mensaje")`
+- Input: `rotalo(tamaño)`
 - Main (como en C): `vacio chisme() { fuimonos; }`
 
 # Programas en Criollito
@@ -114,7 +118,7 @@ vacio chisme() {
 ```
 vacio chisme() {
 	digalo("Ingresa tu nombre");
-	labia nombre = rotalo();
+	labia nombre[50] = rotalo(50);
 	digalo(nombre);
 	fuimonos;
 }
@@ -125,8 +129,8 @@ vacio chisme() {
 vacio chisme() {
 	lucas res = 0;
 	mientras (chevere) echale pichon {
-		lucas numero = rotalo();
-		porsia (numero == 0) {
+		lucas numero = rotalo(50);
+		porsia (numero separeceigualito 0) {
 			paralo;
 		} conchale {
 			res = res + numero;
@@ -140,13 +144,13 @@ vacio chisme() {
 ## Fibonacci
 ```
 lucas chamba nthFibonacci(lucas n) {
-	porsia (n <= 1) {
+	porsia (n menolke? 1) {
 		fuimonos n;
 	}
 	fuimonos nthFibonacci(n-1) + nthFibonacci(n-2);
 }
 vacio chisme() {
-	lucas n = rotalo();
+	lucas n = rotalo(50);
 	lucas res = nthFibonacci(n);
 	fuimonos res;
 }
@@ -160,7 +164,7 @@ lucas[][] mulMat(lucas👉 a[][], lucas👉 b[][]) {
 	lucas r2 = b.sais();
 	lucas c2 = b[0].sais();
 	
-	porsia (c1 != r2) {
+	porsia (c1 nosepareceigualito r2) {
 		digalo("Invalid input");
 		fuimonos -1;
 	}
@@ -170,11 +174,11 @@ lucas[][] mulMat(lucas👉 a[][], lucas👉 b[][]) {
 	lucas j = 0;
 	lucas k = 0;
 
-	mientras (i < r1) echale pichon {
-		mientras (j < c2) echale pichon {
+	mientras (i menolke r1) echale pichon {
+		mientras (j menolke c2) echale pichon {
 			res[i][j] = 0;
 			
-			mientras (k < c1) echale pichon {
+			mientras (k menolke c1) echale pichon {
 				res[i][j] = res[i][j] + a[i][k] * b[k][j];
 				k = k+1;
 			}
@@ -192,8 +196,6 @@ vacio chisme() {
 ```
 
 ## Algoritmo Kruskal
-**TODO**
-
 ```
 saime Grafito {
 	Arista aristas[];
@@ -317,7 +319,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 // Funcion que busca la raiz de los sets creados durante el algoritmo
 lucas buscarRaiz(lucas i, lucas👉 padres[])
 {
-	porsia(padres[i] == -1)
+	porsia(padres[i] separeceigualito -1)
 		fuimonos i;
 
 	padres[i] = buscarRaiz(padres[i],padres);
@@ -351,7 +353,7 @@ vacio unir(lucas x, lucas y, lucas👉 padres[], lucas👉 nivel[])
 ```
 vacio chisme() {
     digalo("Ingresa el código de Brainf*ck: ");
-    labia codigo = rotalo();
+    labia codigo[30000] = rotalo(30000);
     lucas cinta[30000];
     lucas puntero = 0;
     lucas i = 0;
@@ -368,11 +370,11 @@ vacio chisme() {
         } conchale porsia (codigo[i] separeceigualito '.') {
             digalo(cinta[puntero]);
         } conchale porsia (codigo[i] separeceigualito ',') {
-            cinta[puntero] = rotalo();
+            cinta[puntero] = rotalo(1);
         } conchale porsia (codigo[i] separeceigualito '[') {
             porsia (cinta[puntero] separeceigualito 0) {
                 lucas contador = 1;
-                mientras (contador > 0) echale pichon {
+                mientras (contador mayolke 0) echale pichon {
                     i = i + 1;
                     porsia (codigo[i] separeceigualito '[') {
                         contador = contador + 1;
@@ -382,9 +384,9 @@ vacio chisme() {
                 }
             }
         } conchale porsia (codigo[i] separeceigualito ']') {
-            porsia (cinta[puntero] != 0) {
+            porsia (cinta[puntero] nosepareceigualito 0) {
                 lucas contador = 1;
-                mientras (contador > 0) echale pichon {
+                mientras (contador mayolke 0) echale pichon {
                     i = i - 1;
                     porsia (codigo[i] separeceigualito '[') {
                         contador = contador - 1;
