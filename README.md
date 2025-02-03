@@ -25,6 +25,15 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 
 ## Palabras reservadas
 
+### Variables
+
+`<tipo> nombre = <valor>`
+
+Los nombres de las variables no pueden comenzar con los siguientes caracteres:
+
+- Números: `01234567890`
+- Signos ortográficos: `¿,?,¡,!,{},[],(),\,|,@,#,_,etc`
+
 ### Mecanismos de selección
 If: `porsia`, else: `conchale`
 ```
@@ -98,7 +107,7 @@ lucas chamba valorDelBono(gente👉 persona) {
 # Otros
 Algunas cosas generales definidas dentro del lenguaje:
 - Secuenciación: `;`
-- Par ordenado (Cuadre): `(a, b)`
+- Par ordenado (Cuadre): `cuadre (<tipo>, <tipo>) nombre`
 - Error: `guacala("Mensaje de error")`
 - Print: `digalo("Mensaje")`
 - Input: `rotalo(tamaño)`
