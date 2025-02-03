@@ -119,6 +119,7 @@ Algunas cosas generales definidas dentro del lenguaje:
 - Error: `guacala("Mensaje de error")`
 - Print: `digalo("Mensaje")`
 - Input: `rotalo(tamaño)`
+- Comentarios (solo en línea): `💬 Lorem ipsum.`
 - Main (como en C): `vacio chisme() { fuimonos; }`
 
 # Programas en Criollito
