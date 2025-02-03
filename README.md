@@ -10,12 +10,20 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 
 ## Tipos Compuestos
 
-- Arreglos (bululu): `tipo nombre[tamaño]`. Por ejemplo: `lucas arreglo[3] = [1, 2, 3]`
-- String (labia): `“Lorem ipsum”`. Por ejemplo: `labia nombre[10] = “Hola mundo”`
-- Registros (saime): `saime nombre { tipo valor; }`. Por ejemplo: `saime persona { labia nombre[20]; lucas edad; }`
-- Variantes (pastelero): `pastelero nombre { lucas: lucas }`
-- Apuntador (guachiman): `👉a`
-- Desreferenciación: `👈a`
+- Arreglos (bululu): 
+    - `tipo nombre[tamaño]`. Por ejemplo: `lucas arreglo[3] = [1, 2, 3]`
+- String (labia): 
+    - `“Lorem ipsum”`. Por ejemplo: `labia nombre[10] = “Hola mundo”`
+- Registros (saime): 
+    - `saime nombre { tipo valor; }`. 
+    - Por ejemplo: `saime persona { labia nombre[20]; lucas edad; }`
+    - Acceso al valor de un campo: `persona👉nombre`
+- Variantes (pastelero): 
+    - `pastelero nombre { lucas: lucas }`
+- Apuntador, referenciación (guachiman): 
+    - `👉a`
+- Desreferenciación: 
+    - `👈a`
 
 ## Operadores
 
