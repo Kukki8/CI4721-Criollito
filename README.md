@@ -27,7 +27,7 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 
 ## Operadores
 
-- Booleanos: `&&`, `||`, `!`, `separeceigualito`, `nosepareceigualito`, `mayolke`, `menolke`, `mayolke?`, `menolke?`
+- Booleanos: `&&`, `||`, `!`, `separeceigualito`, `nosepareceigualito`, `mayolke`, `menolke`, `mayolke=`, `menolke=`
 - Aritméticos: `+`, `-`, `*`, `/`, `%`
 - Asignación: `=`
 
