@@ -1,4 +1,4 @@
-# Criollito
+# Criollito V1.2
 Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, pero con un toque criollo venezolano. La idea es que sea un lenguaje de programación sencillo, divertido y fácil de entender para cualquier persona que hable español.
 
 ## Tipos Primitivos
@@ -11,19 +11,17 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 ## Tipos Compuestos
 
 - Arreglos (bululu): 
-    - `tipo nombre[tamaño]`. Por ejemplo: `lucas arreglo[3] = [1, 2, 3]`
+    - `tipo[tamaño] nombre`. Por ejemplo: `lucas[3] arreglo = [1, 2, 3]`
 - String (labia): 
-    - `“Lorem ipsum”`. Por ejemplo: `labia nombre[10] = “Hola mundo”`
+    - `“Lorem ipsum”`. Por ejemplo: `labia[10] nombre= “Hola mundo”`
 - Registros (saime): 
     - `saime nombre { tipo valor; }`. 
-    - Por ejemplo: `saime persona { labia nombre[20]; lucas edad; }`
+    - Por ejemplo: `saime persona { labia[20] nombre; lucas edad; }`
     - Acceso al valor de un campo: `persona👉nombre`
 - Variantes (pastelero): 
     - `pastelero nombre { lucas: lucas }`
-- Apuntador, referenciación (guachiman): 
+- Apuntador (guachiman), desreferenciación: 
     - `👉a`
-- Desreferenciación: 
-    - `👈a`
 
 ## Operadores
 
@@ -65,7 +63,7 @@ para a en bululú {}
 para a de lucas a lucas {}
 
 Ej:
-lucas a[3] = [1, 2, 3];
+lucas[3] a = [1, 2, 3];
 para x en a {
     digalo(x);
 }
@@ -176,7 +174,7 @@ vacio chisme() {
 
 ## Multiplicación de matrices
 ```
-lucas[][] mulMat(lucas👉 a[][], lucas👉 b[][]) {
+lucas[][] mulMat(lucas[][]👉 a, lucas[][]👉 b) {
 	lucas r1 = a.sais();
 	lucas c1 = a[0].sais();
 	lucas r2 = b.sais();
@@ -187,7 +185,7 @@ lucas[][] mulMat(lucas👉 a[][], lucas👉 b[][]) {
 		fuimonos -1;
 	}
 
-	lucas res[r1][c2];
+	lucas[r1][c2] res;
 	lucas i = 0;
 	lucas j = 0;
 	lucas k = 0;
@@ -216,7 +214,7 @@ vacio chisme() {
 ## Algoritmo Kruskal
 ```
 saime Grafito {
-	Arista aristas[];
+	Arista[] aristas;
 	lucas vertices;
 }
 
@@ -227,10 +225,10 @@ saime Arista {
 }
 
 saime listaPrioridad{
-	Arista elementos[];
+	Arista[] elementos;
 }
 
-listaPrioridad crearListPrioridad(Arista aristas[]) {
+listaPrioridad crearListPrioridad(Arista[] aristas) {
 
 	listaPrioridad nuevaLista;
 	nuevaLista.elementos[aristas.sais()];
@@ -293,8 +291,8 @@ listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
 
 Grafo Kruskal(Grafito👉 grafito) {
 	
-	lucas papa[n];
-    lucas nivel[n];
+	lucas[n] papa;
+    lucas[n] nivel;
 
 	para i de 0 a n {
 
@@ -303,7 +301,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 	}
 
 	// Crear lista de prioridades
-	listaPrioridad aristasOrdenadas = crearListPrioridad(👈grafito.aristas);
+	listaPrioridad aristasOrdenadas = crearListPrioridad(👉grafito.aristas);
 
 	aristasOrdenadas = ordernarLista(aristasOrdenadas);
 
@@ -326,7 +324,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 		}
 
 		// Verifica que no se pase del limite de las aristas
-		porsia (contadorAristas separeceigualito 👈grafito.vertices - 1) {
+		porsia (contadorAristas separeceigualito 👉grafito.vertices - 1) {
 			paralo;
 		}
 	}
@@ -335,7 +333,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 }
   
 // Funcion que busca la raiz de los sets creados durante el algoritmo
-lucas buscarRaiz(lucas i, lucas👉 padres[])
+lucas buscarRaiz(lucas i, lucas[]👉 padres)
 {
 	porsia(padres[i] separeceigualito -1)
 		fuimonos i;
@@ -345,7 +343,7 @@ lucas buscarRaiz(lucas i, lucas👉 padres[])
 }
 
     
-vacio unir(lucas x, lucas y, lucas👉 padres[], lucas👉 nivel[])
+vacio unir(lucas x, lucas y, lucas[]👉 padres, lucas[]👉 nivel)
 {
 	lucas s1 = buscarRaiz(x,padres);
 	lucas s2 = buscarRaiz(y,padres);
@@ -371,8 +369,8 @@ vacio unir(lucas x, lucas y, lucas👉 padres[], lucas👉 nivel[])
 ```
 vacio chisme() {
     digalo("Ingresa el código de Brainf*ck: ");
-    labia codigo[30000] = rotalo(30000);
-    lucas cinta[30000];
+    labia[30000] codigo= rotalo(30000);
+    lucas[30000] cinta;
     lucas puntero = 0;
     lucas i = 0;
 
