@@ -58,25 +58,25 @@
 "en"                          { return TkIn; } 
 "de"                          { return TkOf; } 
 "a"                           { return TkTo; } 
-"calidad"                     { TkTypeBool }
-"lucas"                       { TkTypeInt }
-"sencillo"                    { TkTypeFloat }
-"beta"                        { TkTypeChar }
-"labia"                       { TkTypeLabia }
-"porsia"                      { TkIf }
-"conchale"                    { TkElse }
-"conchale porsia"             { TkElseIf }
-"chevere"                     { TkTrue }
-"chimbo"                      { TkFalse }
-"rotalo"                      { TkRead }
-"mientras"                    { TkWhile }
-"echale pichon"               { TkDo }
-"fuimonos"                    { TkReturn }
-"digalo"                      { TkPrint }
-"paralo"                      { TkBreak }
-"saime"                       { TkRegister }
-"cuadre"                      { TkPair }
-"pastelero"                   { TkUnion}
+"calidad"                     { return TkTypeBool }
+"lucas"                       { return TkTypeInt }
+"sencillo"                    { return TkTypeFloat }
+"beta"                        { return TkTypeChar }
+"labia"                       { return TkTypeLabia }
+"porsia"                      { return TkIf }
+"conchale"                    { return TkElse }
+"conchale porsia"             { return TkElseIf }
+"chevere"                     { return TkTrue }
+"chimbo"                      { return TkFalse }
+"rotalo"                      { return TkRead }
+"mientras"                    { return TkWhile }
+"echale pichon"               { return TkDo }
+"fuimonos"                    { return TkReturn }
+"digalo"                      { return TkPrint }
+"paralo"                      { return TkBreak }
+"saime"                       { return TkRegister }
+"cuadre"                      { return TkPair }
+"pastelero"                   { return TkUnion}
 
 // Hay que agregar el pre procesamiento en el main de estos tokens con emojis
 [nubecita].*\n                { yycolumn = 1; // Ignora comentarios de una linea }
