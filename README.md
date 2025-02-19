@@ -25,7 +25,7 @@ Criollito es un lenguaje de programación inspirado en lenguajes como C o Java, 
 
 ## Operadores
 
-- Booleanos: `&&`, `||`, `!`, `separeceigualito`, `nosepareceigualito`, `mayolke`, `menolke`, `mayolke=`, `menolke=`
+- Booleanos: `&&`, `||`, `nah`, `separeceigualito`, `nosepareceigualito`, `mayolke`, `menolke`, `mayol=ke`, `menol=ke`
 - Aritméticos: `+`, `-`, `*`, `/`, `%`
 - Asignación: `=`
 
@@ -87,13 +87,13 @@ mientras (x menolke 3) echale pichon { paralo }
 ### Subrutinas
 Las subrutinas son de primer orden. Tienen pasaje de parámetros por valor y por referencia. El pasaje de parámetros por defecto es por valor. En caso de querer pasar por referencia, se debe indicar con el símbolo `👉` al final del tipo de dato.
 ```
-tipo chamba (tipo a) {
+tipo nombre(tipo a) {
 	cuerpo
 	fuimonos a;
 }
 
 Ej. pasaje de parámetros por valor (por defecto):
-lucas chamba (lucas a) {
+lucas chamba(lucas a) {
 	a = a + 1;
 	fuimonos a;
 }
@@ -104,7 +104,7 @@ saime gente {
 	lucas bolivitas;
 }
 
-lucas chamba valorDelBono(gente👉 persona) {
+lucas valorDelBono(gente👉 persona) {
 	fuimonos persona.bolivitas;
 }
 ```
@@ -134,7 +134,7 @@ vacio chisme() {
 ```
 vacio chisme() {
 	digalo("Ingresa tu nombre");
-	labia nombre[50] = rotalo(50);
+	labia[50] nombre = rotalo(50);
 	digalo(nombre);
 	fuimonos;
 }
@@ -159,8 +159,8 @@ vacio chisme() {
 
 ## Fibonacci
 ```
-lucas chamba nthFibonacci(lucas n) {
-	porsia (n menolke? 1) {
+lucas nthFibonacci(lucas n) {
+	porsia (n menol=ke 1) {
 		fuimonos n;
 	}
 	fuimonos nthFibonacci(n-1) + nthFibonacci(n-2);
