@@ -99,7 +99,6 @@
 %%
 
 
-
 // Funcion que se encarga de agregar un error a la cola
 void addError() {
 
@@ -115,4 +114,5 @@ void addError() {
 
     // Finalmente, se agrega el error a la cola
     errors.push(error);
+    
 }
