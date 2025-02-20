@@ -1,14 +1,25 @@
-#include <cstdio>
-#include <cstdlib>
+#include <iostream>
+#include "parser.hpp"
 
-int yyparse(void);
+extern FILE* yyin;
 
-int main(void) {
-    if (yyparse() == 0) {
-        printf("Parsing completado exitosamente.\n");
-    } else {
-        printf("Error en el parsing.\n");
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        std::cerr << "Uso: " << argv[0] << " <archivo de entrada>" << std::endl;
+        return 1;
     }
+
+    // Abrir el archivo de entrada
+    yyin = fopen(argv[1], "r");
+    if (!yyin) {
+        std::cerr << "No se pudo abrir el archivo" << std::endl;
+        return 1;
+    }
+
+    // Parsing
+    yyparse();
+
+    fclose(yyin);
     return 0;
 }
 
