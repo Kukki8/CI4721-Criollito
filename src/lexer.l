@@ -1,31 +1,24 @@
-// Asume que no hay mas archvos que escanear 
 %option noyywrap
 
-// Devuelve el numero de la linea que se esta leyendo
 %option yylineno
 
 %{
 
-    // Importamos las librerias que necesitaremos
     #include <iostream>
     #include <string>
     #include <queue>
+    #include "parser.hpp"
   
     using namespace std;
 
-    // Utilizaremos colas para guardar los tokens y los errores
     queue<string> errors;
 
-    // Apuntador para el nombre del archivo
     char *filename;
 
-    // Variable para guardar la linea actual
     string line = "";
   
-    // Contador de columnas para identificar a los errores
     int yycolumn = 1;
 
-    // Funcion que se encarga de agregar un error a la cola
     void addError(void);
 
 %}
@@ -44,9 +37,9 @@
 "*"                           { return TkPower; }
 "/"                           { return TkDiv; }
 "%"                           { return TkModule; }
-"&&"                          { return TkAnd}
-"||"                          { return TkOr}
-"nah"                         { return TkNot }
+"&&"                          { return TkAnd;}
+"||"                          { return TkOr;}
+"nah"                         { return TkNot; }
 "menolke"                     { return TkLessThan; }
 "menol=ke"                    { return TkLessEqThan; }
 "mayolke"                     { return TkGreaterThan; }
@@ -58,61 +51,55 @@
 "en"                          { return TkIn; } 
 "de"                          { return TkOf; } 
 "a"                           { return TkTo; } 
-"calidad"                     { return TkTypeBool }
-"lucas"                       { return TkTypeInt }
-"sencillo"                    { return TkTypeFloat }
-"beta"                        { return TkTypeChar }
-"labia"                       { return TkTypeLabia }
-"porsia"                      { return TkIf }
-"conchale"                    { return TkElse }
-"conchale porsia"             { return TkElseIf }
-"chevere"                     { return TkTrue }
-"chimbo"                      { return TkFalse }
-"rotalo"                      { return TkRead }
-"mientras"                    { return TkWhile }
-"echale pichon"               { return TkDo }
-"fuimonos"                    { return TkReturn }
-"digalo"                      { return TkPrint }
-"paralo"                      { return TkBreak }
-"saime"                       { return TkRegister }
-"cuadre"                      { return TkPair }
-"pastelero"                   { return TkUnion}
+"calidad"                     { return TkTypeBool; }
+"lucas"                       { return TkTypeInt; }
+"sencillo"                    { return TkTypeFloat; }
+"beta"                        { return TkTypeChar; }
+"labia"                       { return TkTypeLabia; }
+"porsia"                      { return TkIf; }
+"conchale"                    { return TkElse; }
+"conchale porsia"             { return TkElseIf; }
+"chevere"                     { return TkTrue; }
+"chimbo"                      { return TkFalse; }
+"rotalo"                      { return TkRead; }
+"mientras"                    { return TkWhile; }
+"echale pichon"               { return TkDo; }
+"fuimonos"                    { return TkReturn; }
+"digalo"                      { return TkPrint; }
+"paralo"                      { return TkBreak; }
+"saime"                       { return TkRegister; }
+"cuadre"                      { return TkPair; }
+"pastelero"                   { return TkUnion; }
 
-// Hay que agregar el pre procesamiento en el main de estos tokens con emojis
-[nubecita].*\n                { yycolumn = 1; // Ignora comentarios de una linea }
-[nubecita].*                  { yycolumn = 1; // Ignora comentarios de una linea AL FINAL }
+[nubecita].*\n                { yycolumn = 1; }
+[nubecita].*                  { yycolumn = 1; }
 "manito"                      { return TkPointer; }
 [[:alpha:]_][[:alnum:]_]*     { return TkID; }
 [0-9]+                        { yylval.integer = atoi(yytext); return TkInt; }
-[0-9]+\.[0-9]+                { yylval.flot = atof(yytext); return TkFloat; }
+[0-9]+\.[0-9]+                { yylval.flotante = atof(yytext); return TkFloat; }
 \'.\'                         { yylval.integer = yytext[1]; return TkChar; }
 \"(?:[^"\\\n]|\\.)*\"         { return TkString; }
-[\t]                          { yycolumn++; // Ignorar tabular }
-[ ]                           { // Ignora espacios en blanco }
-\n                            { yycolumn = 1; // Ignorar saltos de linea } 
+[\t]                          { yycolumn++; }
+[ ]                           { }
+\n                            { yycolumn = 1; } 
 
 [[:digit:]][[:alnum:]_]*      { 
-                                // Agregamos error de "nombre de variable con numero al principio" a la cola
                                 addError(); 
                               }
                               
 %%
 
 
-// Funcion que se encarga de agregar un error a la cola
 void addError() {
 
-    // Copia el valor del token con el error
     string token = strdup(yytext);
 
-    // Copia el valor del archivo
     string file = strdup(filename);
 
     string error = " Esto está malo, chic@. Acomoda ese " + token + 
     " loco que está ahí por la linea " + to_string(yylineno) + " en la columna " + 
-    to_string(yycolumn - yyleng) + ", al lado del kiosko. \n"
+    to_string(yycolumn - yyleng) + ", al lado del kiosko. \n";
 
-    // Finalmente, se agrega el error a la cola
     errors.push(error);
     
 }
