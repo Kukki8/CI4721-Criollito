@@ -1,5 +1,6 @@
 #include <iostream>
 #include "parser.hpp"
+// #include "sym_table.h"
 
 extern FILE* yyin;
 
@@ -8,6 +9,8 @@ int main(int argc, char** argv) {
         std::cerr << "Uso: " << argv[0] << " <archivo de entrada>" << std::endl;
         return 1;
     }
+
+    // SymTable symTable = SymTable();
 
     // Abrir el archivo de entrada
     yyin = fopen(argv[1], "r");
