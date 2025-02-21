@@ -17,10 +17,15 @@ extern queue<string> errors;
 %token TkComma TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket
 %token TkOpenBrace TkCloseBrace TkPlus TkMinus TkPower TkDiv TkModule
 %token TkAnd TkOr TkNot TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
-%token TkEquiv TkNotEquiv TkAssignment TkFor TkIn TkOf TkTo
+%token TkEquiv TkNotEquiv 
+%token TkAssignment "="
+%token TkFor TkIn TkOf TkTo
 %token TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeLabia TkIf TkElse
 %token TkElseIf TkTrue TkFalse TkRead TkWhile TkDo TkReturn TkPrint TkBreak
 %token TkRegister TkPair TkUnion TkPointer TkID TkInt TkFloat TkChar TkString
+
+
+%define parse.error detailed
 
 %union {
     int integer;
@@ -33,12 +38,12 @@ extern queue<string> errors;
 %type <flotante> TkFloat
 %type <character> TkChar
 %type <str> TkString
-%type <str> TkID
+%type <str> TkID 
 
 %%
 // Gramática
 program:
-    statements
+    statements 
 ;
 
 statements:
@@ -91,7 +96,7 @@ print:
 ;
 
 declaration:
-    type TkID TkSemicolon
+    type TkID TkSemicolon       
     | type assignment
 ;
 
@@ -127,6 +132,7 @@ expression:
 %%
 
 void yyerror(const char *str) {
-    cerr << "¡Epale!, tienes este error: " << str << " en la línea " << yylineno << endl;
+    cerr << "¡Epale!, tienes este error: " << str << endl;
+    cerr << "En la línea " << yylineno << endl;
 }
 
