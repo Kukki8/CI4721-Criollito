@@ -1,0 +1,51 @@
+vacio chisme() {
+    digalo("Ingresa el código de Brainf*ck: ");
+    labia[30000] codigo = rotalo(30000);
+    lucas[30000] cinta;
+    lucas puntero = 0;
+    lucas i = 0;
+
+    mientras (i menolke codigo.sais()) echale pichon {
+        porsia (codigo[i] separeceigualito '>') {
+            puntero = puntero + 1;
+        } conchale porsia (codigo[i] separeceigualito '<' && puntero mayolke 0) {
+            puntero = puntero - 1;
+        } conchale porsia (codigo[i] separeceigualito '+') {
+            cinta[puntero] = cinta[puntero] + 1;
+        } conchale porsia (codigo[i] separeceigualito '-') {
+            cinta[puntero] = cinta[puntero] - 1;
+        } conchale porsia (codigo[i] separeceigualito '.') {
+            digalo(cinta[puntero]);
+        } conchale porsia (codigo[i] separeceigualito ',') {
+            cinta[puntero] = rotalo(1);
+        } conchale porsia (codigo[i] separeceigualito '[') {
+            porsia (cinta[puntero] separeceigualito 0) {
+                lucas contador = 1;
+                mientras (contador mayolke 0) echale pichon {
+                    i = i + 1;
+                    porsia (codigo[i] separeceigualito '[') {
+                        contador = contador + 1;
+                    } conchale porsia (codigo[i] separeceigualito ']') {
+                        contador = contador - 1;
+                    }
+                }
+            }
+        } conchale porsia (codigo[i] separeceigualito ']') {
+            porsia (cinta[puntero] nosepareceigualito 0) {
+                lucas contador = 1;
+                mientras (contador mayolke 0) echale pichon {
+                    i = i - 1;
+                    porsia (codigo[i] separeceigualito '[') {
+                        contador = contador - 1;
+                    } conchale porsia (codigo[i] separeceigualito ']') {
+                        contador = contador + 1;
+                    }
+                }
+            }
+        } conchale {
+            guacala("No se reconoce el caracter");
+        }
+        i = i + 1;
+    }
+    fuimonos;
+}
