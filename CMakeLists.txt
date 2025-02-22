@@ -17,5 +17,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(include)
 
 # Source files
-add_executable(Criollito src/main.cpp ${FLEX_Lexer_OUTPUTS} ${BISON_Parser_OUTPUTS})
+add_executable(
+  Criollito
+  src/main.cpp 
+  src/sym_table.cpp
+  ${FLEX_Lexer_OUTPUTS} 
+  ${BISON_Parser_OUTPUTS}
+)
 

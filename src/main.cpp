@@ -1,6 +1,6 @@
 #include <iostream>
 #include "parser.hpp"
-// #include "sym_table.h"
+#include "sym_table.h"
 
 extern FILE* yyin;
 
@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    // SymTable symTable = SymTable();
+    SymTable symTable = SymTable();
 
     // Abrir el archivo de entrada
     yyin = fopen(argv[1], "r");
