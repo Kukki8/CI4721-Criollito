@@ -18,12 +18,22 @@ extern queue<string> errors;
 %token TkOpenBrace TkCloseBrace TkPlus TkMinus TkPower TkDiv TkModule
 %token TkAnd TkOr TkNot TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
 %token TkEquiv TkNotEquiv 
-%token TkAssignment "="
+%token TkAssignment
 %token TkFor TkIn TkOf TkTo
-%token TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeLabia TkIf TkElse
-%token TkElseIf TkTrue TkFalse TkRead TkWhile TkDo TkReturn TkPrint TkBreak
+%token TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeLabia TkTypeVoid TkIf TkElse
+%token TkElseIf TkTrue TkFalse TkWhile TkDo TkReturn TkBreak
 %token TkRegister TkPair TkUnion TkPointer TkID TkInt TkFloat TkChar TkString
 
+%left TkOr
+%left TkAnd
+%left TkEquiv TkNotEquiv
+%left TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
+%left TkPlus TkMinus
+%left TkDiv TkModule
+%left TkPower
+%left TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeLabia TkTypeVoid
+%right TkNot
+%nonassoc TkTrue TkFalse
 
 %define parse.error detailed
 
@@ -52,13 +62,34 @@ statements:
 ;
 
 statement:
-    assignment
+    declaration
     | if
+    | ifElse
     | for
     | while
     | return
-    | print
-    | declaration
+    | assignment
+    | function
+;
+
+function:
+    type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
+    | type TkID TkOpenPar TkClosePar TkOpenBrace statements TkCloseBrace
+;
+
+functionParameter:
+    type TkID
+    | functionParameter TkComma
+;
+
+functionCall:
+    TkID TkOpenPar functionArgument TkClosePar TkSemicolon
+    | TkID TkOpenPar TkClosePar TkSemicolon
+;
+
+functionArgument:
+    expression
+    | functionArgument TkComma
 ;
 
 assignment:
@@ -66,13 +97,14 @@ assignment:
 ;
 
 if:
-    TkIf expression TkOpenBrace statements TkCloseBrace
-    | TkIf expression TkOpenBrace statements TkCloseBrace elseOrElseIf TkOpenBrace statements TkCloseBrace
+    TkIf TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace
 ;
 
-elseOrElseIf:
-    TkElse
-    | TkElseIf expression
+ifElse:
+    TkIf TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace TkElse TkOpenBrace statements TkCloseBrace
+    | TkIf TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace TkElseIf boolExpression TkOpenBrace statements TkCloseBrace
+;
+
 
 for:
     TkFor TkID TkIn TkID TkOpenBrace statements TkCloseBrace
@@ -80,7 +112,7 @@ for:
 ;
 
 while:
-    TkWhile expression TkDo TkOpenBrace statements TkCloseBrace
+    TkWhile TkOpenPar boolExpression TkClosePar TkDo TkOpenBrace statements TkCloseBrace
 ;
 
 range:
@@ -91,29 +123,34 @@ return:
     TkReturn expression TkSemicolon
 ;
 
-print:
-    TkPrint expression TkSemicolon
-;
-
 declaration:
     type TkID TkSemicolon       
     | type assignment
 ;
 
 type:
+    baseType
+    | arrayType
+;
+
+baseType:
     TkTypeBool
     | TkTypeInt
     | TkTypeFloat
     | TkTypeChar
     | TkTypeLabia
+    | TkTypeVoid
+;
 
-typeArray:
-     type arraySize
-     | typeArray arraySize
+arrayType:
+     baseType arraySize
+     | arrayType arraySize
+;
 
 arraySize:
     TkOpenBracket TkID TkCloseBracket
     | TkOpenBracket TkInt TkCloseBracket
+;
 
 expression:
     TkInt
@@ -121,6 +158,7 @@ expression:
     | TkChar
     | TkString
     | TkID
+    | functionCall
     | expression TkPlus expression
     | expression TkMinus expression
     | expression TkPower expression
@@ -129,6 +167,29 @@ expression:
     | TkOpenPar expression TkClosePar
 ;
 
+boolExpression:
+      TkTrue
+    | TkFalse
+    | primitive TkLessThan primitive
+    | primitive TkLessEqThan primitive
+    | primitive TkGreaterThan primitive
+    | primitive TkGreaterEqThan primitive
+    | primitive TkEquiv primitive
+    | primitive TkNotEquiv primitive
+    | primitive TkAnd primitive
+    | primitive TkOr primitive
+    | TkNot boolExpression
+    | TkOpenPar boolExpression TkClosePar
+    | boolExpression TkAnd boolExpression
+    | boolExpression TkOr boolExpression
+;
+
+primitive:
+  TkInt
+  | TkFloat
+  | TkID
+  | TkChar
+;
 %%
 
 void yyerror(const char *str) {

@@ -19,7 +19,7 @@
   
     int yycolumn = 1;
 
-    void addError(void);
+    void addError();
 
 %}
 
@@ -30,7 +30,7 @@
 ")"                           { return TkClosePar; }
 "["                           { return TkOpenBracket; }
 "]"                           { return TkCloseBracket; }
-"{"                           { return TkOpenBrace; }  
+"{"                           { return TkOpenBrace; }
 "}"                           { return TkCloseBrace; }
 "+"                           { return TkPlus; }
 "-"                           { return TkMinus; }
@@ -46,33 +46,30 @@
 "mayol=ke"                    { return TkGreaterEqThan; }
 "separeceigualito"            { return TkEquiv; }
 "nosepareceigualito"          { return TkNotEquiv; }
-"="                           { return TkAssignment; } 
-"para"                        { return TkFor; } 
-"en"                          { return TkIn; } 
-"de"                          { return TkOf; } 
-"a"                           { return TkTo; } 
+"="                           { return TkAssignment; }
+"para"                        { return TkFor; }
+"en"                          { return TkIn; }
+"de"                          { return TkOf; }
+"a"                           { return TkTo; }
 "calidad"                     { return TkTypeBool; }
 "lucas"                       { return TkTypeInt; }
 "sencillo"                    { return TkTypeFloat; }
 "beta"                        { return TkTypeChar; }
 "labia"                       { return TkTypeLabia; }
+"vacio"                       { return TkTypeVoid; }
+"conchale porsia"             { return TkElseIf; }
 "porsia"                      { return TkIf; }
 "conchale"                    { return TkElse; }
-"conchale porsia"             { return TkElseIf; }
 "chevere"                     { return TkTrue; }
 "chimbo"                      { return TkFalse; }
-"rotalo"                      { return TkRead; }
 "mientras"                    { return TkWhile; }
 "echale pichon"               { return TkDo; }
 "fuimonos"                    { return TkReturn; }
-"digalo"                      { return TkPrint; }
 "paralo"                      { return TkBreak; }
 "saime"                       { return TkRegister; }
 "cuadre"                      { return TkPair; }
 "pastelero"                   { return TkUnion; }
-
-[nubecita].*\n                { yycolumn = 1; }
-[nubecita].*                  { yycolumn = 1; }
+nubecita[^\n]*\n              { yycolumn = 1; }
 "manito"                      { return TkPointer; }
 [[:alpha:]_][[:alnum:]_]*     { return TkID; }
 [0-9]+                        { yylval.integer = atoi(yytext); return TkInt; }
@@ -81,25 +78,16 @@
 \"(?:[^"\\\n]|\\.)*\"         { return TkString; }
 [\t]                          { yycolumn++; }
 [ ]                           { }
-\n                            { yycolumn = 1; } 
-
-[[:digit:]][[:alnum:]_]*      { 
-                                addError(); 
-                              }
-                              
+\n                            { yycolumn = 1; }
+.                             { addError(); }
 %%
 
-
 void addError() {
+    std::string token = yytext;
+    std::string error = "Esto está malo, chic@. Acomoda ese " + token + " loco que está ahí por la línea " + std::to_string(yylineno) + " en la columna " + std::to_string(yycolumn - yyleng) + ", al lado del kiosko.\n";
 
-    string token = strdup(yytext);
-
-    string file = strdup(filename);
-
-    string error = " Esto está malo, chic@. Acomoda ese " + token + 
-    " loco que está ahí por la linea " + to_string(yylineno) + " en la columna " + 
-    to_string(yycolumn - yyleng) + ", al lado del kiosko. \n";
-
-    errors.push(error);
+    // Imprimir el error en stderr
+    fprintf(stderr, "%s", error.c_str());
     
+    errors.push(error);
 }
