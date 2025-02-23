@@ -26,6 +26,7 @@
 %%
 "."                           { return TkDot; }
 ","                           { return TkComma; }
+":"                           { return TkColon; }
 ";"                           { return TkSemicolon; }
 "("                           { return TkOpenPar; }
 ")"                           { return TkClosePar; }

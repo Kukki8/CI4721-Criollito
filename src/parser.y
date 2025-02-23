@@ -15,7 +15,7 @@ extern queue<string> errors;
 
 %}
 
-%token TkDot TkComma TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket
+%token TkDot TkComma TkColon TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket
 %token TkOpenBrace TkCloseBrace TkPlus TkMinus TkPower TkDiv TkModule
 %token TkAnd TkOr TkNot TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
 %token TkEquiv TkNotEquiv 
