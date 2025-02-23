@@ -55,7 +55,7 @@
 "lucas"                       { return TkTypeInt; }
 "sencillo"                    { return TkTypeFloat; }
 "beta"                        { return TkTypeChar; }
-"labia"                       { return TkTypeLabia; }
+"labia"                       { return TkTypeString; }
 "vacio"                       { return TkTypeVoid; }
 "conchale porsia"             { return TkElseIf; }
 "porsia"                      { return TkIf; }
@@ -66,6 +66,7 @@
 "echale pichon"               { return TkDo; }
 "fuimonos"                    { return TkReturn; }
 "paralo"                      { return TkBreak; }
+"palante"                     { return TkContinue; }
 "saime"                       { return TkRegister; }
 "cuadre"                      { return TkPair; }
 "pastelero"                   { return TkUnion; }

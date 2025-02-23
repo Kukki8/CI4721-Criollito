@@ -126,7 +126,6 @@ Algunas cosas generales definidas dentro del lenguaje:
 ```
 vacio chisme() {
 	digalo("Hola mundo");
-	fuimonos;
 }
 ```
 
@@ -136,7 +135,6 @@ vacio chisme() {
 	digalo("Ingresa tu nombre");
 	labia[50] nombre = rotalo(50);
 	digalo(nombre);
-	fuimonos;
 }
 ```
 
@@ -153,7 +151,6 @@ vacio chisme() {
 		}
 	}
 	digalo(res);
-	fuimonos;
 }
 ```
 
@@ -168,7 +165,7 @@ lucas nthFibonacci(lucas n) {
 vacio chisme() {
 	lucas n = rotalo(50);
 	lucas res = nthFibonacci(n);
-	fuimonos res;
+	digalo(res);
 }
 ```
 
@@ -206,9 +203,6 @@ lucas[][] mulMat(lucas[][]👉 a, lucas[][]👉 b) {
 	fuimonos res;
 }
 
-vacio chisme() {
-	fuimonos;
-}
 ```
 
 ## Algoritmo Kruskal
@@ -416,6 +410,5 @@ vacio chisme() {
         }
         i = i + 1;
     }
-    fuimonos;
 }
 ```

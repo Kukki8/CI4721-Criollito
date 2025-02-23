@@ -47,5 +47,4 @@ vacio chisme() {
         }
         i = i + 1;
     }
-    fuimonos;
 }

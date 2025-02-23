@@ -1,0 +1,6 @@
+Lista de cosas por agregar en el Parser:
+
+- Registros (saime):saime nombre { tipo valor; }
+- Variantes (pastelero): pastelero nombre { lucas: lucas }
+- Apuntador (guachiman), desreferenciación: 👉a
+- Par ordenado (Cuadre): `cuadre (<tipo>, <tipo>) nombre

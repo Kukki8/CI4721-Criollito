@@ -7,5 +7,5 @@ lucas nthFibonacci(lucas n) {
 vacio chisme() {
 	lucas n = rotalo(50);
 	lucas res = nthFibonacci(n);
-	fuimonos res;
+	digalo(res);
 }

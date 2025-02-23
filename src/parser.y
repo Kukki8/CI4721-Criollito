@@ -12,6 +12,7 @@ extern char* yytext;
 extern void yyerror(const char*);
 
 extern queue<string> errors;
+
 %}
 
 %token TkComma TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket
@@ -20,9 +21,12 @@ extern queue<string> errors;
 %token TkEquiv TkNotEquiv 
 %token TkAssignment
 %token TkFor TkIn TkOf TkTo
-%token TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeLabia TkTypeVoid TkIf TkElse
-%token TkElseIf TkTrue TkFalse TkWhile TkDo TkReturn TkBreak
+%token TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeString TkTypeVoid TkIf TkElse
+%token TkElseIf TkTrue TkFalse TkWhile TkDo TkReturn TkBreak TkContinue
 %token TkRegister TkPair TkUnion TkPointer TkID TkInt TkFloat TkChar TkString
+
+
+// Reglas de Precedencia
 
 %left TkOr
 %left TkAnd
@@ -31,11 +35,13 @@ extern queue<string> errors;
 %left TkPlus TkMinus
 %left TkDiv TkModule
 %left TkPower
-%left TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeLabia TkTypeVoid
+%left TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeString TkTypeVoid
 %right TkNot
 %nonassoc TkTrue TkFalse
 
 %define parse.error detailed
+
+// Definicion de tipos 
 
 %union {
     int integer;
@@ -51,7 +57,9 @@ extern queue<string> errors;
 %type <str> TkID 
 
 %%
+
 // Gramática
+
 program:
     statements 
 ;
@@ -70,15 +78,17 @@ statement:
     | return
     | assignment
     | functionCall
+    | TkBreak TkSemicolon
+    | TkContinue TkSemicolon
 ;
 
 function:
-    type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
-    | type TkID TkOpenPar TkClosePar TkOpenBrace statements TkCloseBrace
+    returnType TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
 ;
 
 functionParameter:
-    type TkID
+    // lambda
+    | type TkID
     | functionParameter TkComma
 ;
 
@@ -88,11 +98,11 @@ functionCall:
 
 functionCallVal:
     TkID TkOpenPar functionArgument TkClosePar
-    | TkID TkOpenPar TkClosePar
 ;
 
 functionArgument:
-    expression
+    // lambda
+    | expression
     | functionArgument TkComma
 ;
 
@@ -101,14 +111,22 @@ assignment:
 ;
 
 if:
-    TkIf TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace
+    TkIf ifExpression optionalIfElse optionalElse
 ;
 
-ifElse:
-    TkIf TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace TkElse TkOpenBrace statements TkCloseBrace
-    | TkIf TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace TkElseIf boolExpression TkOpenBrace statements TkCloseBrace
+ifExpression:
+    TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace
 ;
 
+optionalIfElse:
+    // lambda
+    | TkElseIf ifExpression
+;
+
+optionalElse:
+    // lambda
+    | TkElse ifExpression
+;
 
 for:
     TkFor TkID TkIn TkID TkOpenBrace statements TkCloseBrace
@@ -143,7 +161,11 @@ baseType:
     | TkTypeInt
     | TkTypeFloat
     | TkTypeChar
-    | TkTypeLabia
+    | TkTypeString
+;
+
+returnType:
+    type
     | TkTypeVoid
 ;
 
@@ -170,6 +192,7 @@ expression:
     | expression TkDiv expression
     | expression TkModule expression
     | TkOpenPar expression TkClosePar
+    | boolExpression
 ;
 
 boolExpression:
@@ -181,8 +204,6 @@ boolExpression:
     | primitive TkGreaterEqThan primitive
     | primitive TkEquiv primitive
     | primitive TkNotEquiv primitive
-    | primitive TkAnd primitive
-    | primitive TkOr primitive
     | TkNot boolExpression
     | TkOpenPar boolExpression TkClosePar
     | boolExpression TkAnd boolExpression
