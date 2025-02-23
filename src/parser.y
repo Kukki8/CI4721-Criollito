@@ -69,7 +69,7 @@ statement:
     | while
     | return
     | assignment
-    | function
+    | functionCall
 ;
 
 function:
@@ -83,8 +83,12 @@ functionParameter:
 ;
 
 functionCall:
-    TkID TkOpenPar functionArgument TkClosePar TkSemicolon
-    | TkID TkOpenPar TkClosePar TkSemicolon
+    functionCallVal TkSemicolon
+;
+
+functionCallVal:
+    TkID TkOpenPar functionArgument TkClosePar
+    | TkID TkOpenPar TkClosePar
 ;
 
 functionArgument:
@@ -126,6 +130,7 @@ return:
 declaration:
     type TkID TkSemicolon       
     | type assignment
+    | function
 ;
 
 type:
@@ -158,7 +163,7 @@ expression:
     | TkChar
     | TkString
     | TkID
-    | functionCall
+    | functionCallVal
     | expression TkPlus expression
     | expression TkMinus expression
     | expression TkPower expression
