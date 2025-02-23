@@ -183,6 +183,32 @@ arraySize:
     TkOpenBracket expression TkCloseBracket
 ;
 
+pair:
+    TkPair TkOpenPar type TkComma type TkClosePar TkID 
+;
+
+dereference:
+    TkPointer TkID 
+;
+
+variant:
+    TkUnion TkID TkOpenBrace variantList TkCloseBrace
+;
+
+variantList:
+    type TkColon type
+    | variantList TkComma type TkColon type
+;
+
+register:
+    TkRegister TkID TkOpenBrace registerList TkCloseBrace
+;
+
+registerList:
+    type TkID TkSemicolon
+    | registerList type TkID TkSemicolon
+;
+
 expression:
     TkInt
     | TkFloat
