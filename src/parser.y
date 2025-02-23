@@ -89,7 +89,7 @@ function:
 functionParameter:
     // lambda
     | type TkID
-    | functionParameter TkComma
+    | functionParameter TkComma type TkID
 ;
 
 functionCall:
@@ -110,8 +110,8 @@ functionArgument:
 assignment:
     TkID TkAssignment expression TkSemicolon
     | TkID TkAssignment boolExpression TkSemicolon
-    | readArray TkAssignment expression TkSemicolon
-    | readArray TkAssignment boolExpression TkSemicolon
+    | array TkAssignment expression TkSemicolon
+    | array TkAssignment boolExpression TkSemicolon
 ;
 
 if:
@@ -159,28 +159,36 @@ declaration:
     type TkID TkSemicolon       
     | type assignment
     | function
+    | register
+    | variant
 ;
 
 type:
     baseType
-    | arrayType
+    | array
 ;
 
 baseType:
-    TkTypeBool
+    TkID
+    | TkTypeBool
     | TkTypeInt
     | TkTypeFloat
     | TkTypeChar
     | TkTypeString
 ;
 
-arrayType:
+array:
      baseType arraySize
-     | arrayType arraySize
 ;
 
 arraySize:
-    TkOpenBracket expression TkCloseBracket
+    TkOpenBracket arraySizeParam TkCloseBracket
+    | arraySize TkOpenBracket arraySizeParam TkCloseBracket
+;
+
+arraySizeParam:
+    // lambda
+    | expression
 ;
 
 pair:
@@ -217,7 +225,7 @@ expression:
     | TkID
     | functionCallVal
     | dotOperator
-    | readArray
+    | array
     | expression TkPlus expression
     | expression TkMinus expression
     | expression TkPower expression
@@ -244,16 +252,8 @@ boolExpression:
 dotOperator:
   TkID TkDot functionCallVal
   | TkID TkDot TkID
+  | TkID TkDot array
   | TkID TkDot dotOperator
-;
-
-readArray:
-  TkID arrayPosition
-;
-
-arrayPosition:
-  arraySize
-  | arrayPosition arraySize
 ;
 %%
 
