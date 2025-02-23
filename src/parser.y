@@ -226,6 +226,8 @@ expression:
     | functionCallVal
     | dotOperator
     | array
+    | pair
+    | dereference
     | expression TkPlus expression
     | expression TkMinus expression
     | expression TkPower expression
