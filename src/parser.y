@@ -15,7 +15,7 @@ extern queue<string> errors;
 
 %}
 
-%token TkComma TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket
+%token TkDot TkComma TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket
 %token TkOpenBrace TkCloseBrace TkPlus TkMinus TkPower TkDiv TkModule
 %token TkAnd TkOr TkNot TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
 %token TkEquiv TkNotEquiv 
@@ -110,24 +110,31 @@ functionArgument:
 assignment:
     TkID TkAssignment expression TkSemicolon
     | TkID TkAssignment boolExpression TkSemicolon
+    | readArray TkAssignment expression TkSemicolon
+    | readArray TkAssignment boolExpression TkSemicolon
 ;
 
 if:
-    TkIf ifExpression optionalIfElse optionalElse
+    TkIf ifExpression optionalElseIf optionalElse
 ;
 
 ifExpression:
     TkOpenPar boolExpression TkClosePar TkOpenBrace statements TkCloseBrace
 ;
 
-optionalIfElse:
+optionalElseIf:
     // lambda
+    | elseIfList
+;
+
+elseIfList:
+    elseIfList TkElseIf ifExpression
     | TkElseIf ifExpression
 ;
 
 optionalElse:
     // lambda
-    | TkElse ifExpression
+    | TkElse TkOpenBrace statements TkCloseBrace
 ;
 
 for:
@@ -173,8 +180,7 @@ arrayType:
 ;
 
 arraySize:
-    TkOpenBracket TkID TkCloseBracket
-    | TkOpenBracket TkInt TkCloseBracket
+    TkOpenBracket expression TkCloseBracket
 ;
 
 expression:
@@ -184,6 +190,8 @@ expression:
     | TkString
     | TkID
     | functionCallVal
+    | dotOperator
+    | readArray
     | expression TkPlus expression
     | expression TkMinus expression
     | expression TkPower expression
@@ -195,28 +203,36 @@ expression:
 boolExpression:
       TkTrue
     | TkFalse
-    | primitive TkLessThan primitive
-    | primitive TkLessEqThan primitive
-    | primitive TkGreaterThan primitive
-    | primitive TkGreaterEqThan primitive
-    | primitive TkEquiv primitive
-    | primitive TkNotEquiv primitive
+    | expression TkLessThan expression
+    | expression TkLessEqThan expression
+    | expression TkGreaterThan expression
+    | expression TkGreaterEqThan expression
+    | expression TkEquiv expression
+    | expression TkNotEquiv expression
     | TkNot boolExpression
     | TkOpenPar boolExpression TkClosePar
     | boolExpression TkAnd boolExpression
     | boolExpression TkOr boolExpression
 ;
 
-primitive:
-  TkInt
-  | TkFloat
-  | TkID
-  | TkChar
+dotOperator:
+  TkID TkDot functionCallVal
+  | TkID TkDot TkID
+  | TkID TkDot dotOperator
+;
+
+readArray:
+  TkID arrayPosition
+;
+
+arrayPosition:
+  arraySize
+  | arrayPosition arraySize
 ;
 %%
 
 void yyerror(const char *str) {
     cerr << "¡Epale!, tienes este error: " << str << endl;
-    cerr << "En la línea " << yylineno << endl;
+    cerr << "en la línea " << yylineno << endl;
 }
 

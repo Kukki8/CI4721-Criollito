@@ -24,6 +24,7 @@
 %}
 
 %%
+"."                           { return TkDot; }
 ","                           { return TkComma; }
 ";"                           { return TkSemicolon; }
 "("                           { return TkOpenPar; }
