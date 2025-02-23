@@ -1,0 +1,12 @@
+vacio chisme() {
+	lucas res = 0;
+	mientras (chevere) echale pichon {
+		lucas numero = rotalo(50);
+		porsia (numero separeceigualito 0) {
+			paralo;
+		} conchale {
+			res = res + numero;
+		}
+	}
+	digalo(res);
+}

@@ -1,0 +1,31 @@
+lucas[][] mulMat(lucas[][]👉 a, lucas[][]👉 b) {
+	lucas r1 = a.sais();
+	lucas c1 = a[0].sais();
+	lucas r2 = b.sais();
+	lucas c2 = b[0].sais();
+	
+	porsia (c1 nosepareceigualito r2) {
+		digalo("Invalid input");
+		fuimonos -1;
+	}
+
+	lucas[r1][c2] res;
+	lucas i = 0;
+	lucas j = 0;
+	lucas k = 0;
+
+	mientras (i menolke r1) echale pichon {
+		mientras (j menolke c2) echale pichon {
+			res[i][j] = 0;
+			
+			mientras (k menolke c1) echale pichon {
+				res[i][j] = res[i][j] + a[i][k] * b[k][j];
+				k = k+1;
+			}
+			j = j+1;
+		}
+		i = i+1;
+	}
+
+	fuimonos res;
+}

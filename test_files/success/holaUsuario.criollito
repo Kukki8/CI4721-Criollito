@@ -1,0 +1,5 @@
+vacio chisme() {
+	digalo("Ingresa tu nombre");
+	labia[50] nombre = rotalo(50);
+	digalo(nombre);
+}
