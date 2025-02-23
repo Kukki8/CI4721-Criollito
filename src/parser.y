@@ -72,7 +72,6 @@ statements:
 statement:
     declaration
     | if
-    | ifElse
     | for
     | while
     | return
@@ -83,7 +82,8 @@ statement:
 ;
 
 function:
-    returnType TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
+    type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
+    | TkTypeVoid TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
 ;
 
 functionParameter:
@@ -103,11 +103,13 @@ functionCallVal:
 functionArgument:
     // lambda
     | expression
+    | boolExpression
     | functionArgument TkComma
 ;
 
 assignment:
     TkID TkAssignment expression TkSemicolon
+    | TkID TkAssignment boolExpression TkSemicolon
 ;
 
 if:
@@ -143,6 +145,7 @@ range:
 
 return:
     TkReturn expression TkSemicolon
+    | TkReturn boolExpression TkSemicolon
 ;
 
 declaration:
@@ -162,11 +165,6 @@ baseType:
     | TkTypeFloat
     | TkTypeChar
     | TkTypeString
-;
-
-returnType:
-    type
-    | TkTypeVoid
 ;
 
 arrayType:
@@ -192,7 +190,6 @@ expression:
     | expression TkDiv expression
     | expression TkModule expression
     | TkOpenPar expression TkClosePar
-    | boolExpression
 ;
 
 boolExpression:

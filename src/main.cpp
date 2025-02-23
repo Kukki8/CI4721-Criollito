@@ -4,13 +4,14 @@
 
 extern FILE* yyin;
 
+/*
 char* emojiTranslator(int ascii){
     // Idea de funcion a completar:
         // Leer archivo completo
         // Sustituir por nombre clave ("nubecita", "manito", por ejemplo)
         // Guardar codigo en archivo temporal
 }
-
+*/
 
 int main(int argc, char** argv) {
     if (argc < 2) {
