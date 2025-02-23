@@ -196,6 +196,10 @@ pair:
     TkPair TkOpenPar type TkComma type TkClosePar TkID 
 ;
 
+pairExpression:
+    TkOpenPar expression TkComma expression TkClosePar
+;
+
 dereference:
     TkPointer TkID 
 ;
@@ -228,6 +232,7 @@ expression:
     | dotOperator
     | array
     | dereference
+    | pairExpression
     | expression TkPlus expression
     | expression TkMinus expression
     | expression TkPower expression
