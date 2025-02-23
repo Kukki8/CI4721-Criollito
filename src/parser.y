@@ -161,6 +161,7 @@ declaration:
     | function
     | register
     | variant
+    | pair
 ;
 
 type:
@@ -226,7 +227,6 @@ expression:
     | functionCallVal
     | dotOperator
     | array
-    | pair
     | dereference
     | expression TkPlus expression
     | expression TkMinus expression
