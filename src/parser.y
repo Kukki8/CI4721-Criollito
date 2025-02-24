@@ -215,9 +215,11 @@ pairExpression:
     TkOpenPar expression TkComma expression TkClosePar
 ;
 
+//Se agrego "| TkPointer dotOperator" para satisfacer la linea 88 de kruskal "listaPrioridad aristasOrdenadas = crearListPrioridad(👉grafito.aristas);"
 dereference:
     TkPointer TkID
     | TkPointer array
+    | TkPointer dotOperator
 ;
 
 variant:
