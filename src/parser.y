@@ -16,7 +16,7 @@ extern queue<string> errors;
 
 %}
 
-%token TkDot TkComma TkColon TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket
+%token TkDot TkComma TkColon TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket TkDereference
 %token TkOpenBrace TkCloseBrace TkPlus TkMinus TkPower TkDiv TkModule
 %token TkAnd TkOr TkNot TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
 %token TkEquiv TkNotEquiv 
@@ -39,6 +39,7 @@ extern queue<string> errors;
 %left TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeString TkTypeVoid
 %right TkNot
 %nonassoc TkTrue TkFalse
+%right TkPointer
 %precedence TkDot
 %precedence TkID
 
@@ -95,7 +96,9 @@ function:
 functionParameter:
     // lambda
     | type TkID
+    | type dereference
     | functionParameter TkComma type TkID
+    | functionParameter TkComma type dereference
 ;
 
 functionCall:
@@ -213,7 +216,8 @@ pairExpression:
 ;
 
 dereference:
-    TkPointer TkID 
+    TkPointer TkID
+    | TkPointer array
 ;
 
 variant:

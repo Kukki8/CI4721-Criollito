@@ -77,7 +77,7 @@ listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
 	fuimonos listaDesordenada;
 }
 
-Grafo Kruskal(Grafito👉 grafito) {
+Grafo Kruskal(Grafito~ grafito) {
 	
 	lucas[n] papa;
   lucas[n] nivel;
@@ -88,7 +88,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 		nivel[i] = 1;
 	}
 
-	listaPrioridad aristasOrdenadas = crearListPrioridad(👉grafito.aristas);
+	listaPrioridad aristasOrdenadas = crearListPrioridad(~grafito.aristas);
 
 	aristasOrdenadas = ordernarLista(aristasOrdenadas);
 
@@ -108,7 +108,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 			contadorAristas = contadorAristas + 1;
 		}
 
-		porsia (contadorAristas separeceigualito 👉grafito.vertices - 1) {
+		porsia (contadorAristas separeceigualito ~grafito.vertices - 1) {
 			paralo;
 		}
 	}
@@ -116,7 +116,7 @@ Grafo Kruskal(Grafito👉 grafito) {
 
 }
   
-lucas buscarRaiz(lucas i, lucas[]👉 padres)
+lucas buscarRaiz(lucas i, lucas[]~ padres)
 {
 	porsia(padres[i] separeceigualito -1) {
 		fuimonos i;
@@ -127,7 +127,7 @@ lucas buscarRaiz(lucas i, lucas[]👉 padres)
 }
 
     
-vacio unir(lucas x, lucas y, lucas[]👉 padres, lucas[]👉 nivel)
+vacio unir(lucas x, lucas y, lucas[]~ padres, lucas[]~ nivel)
 {
 	lucas s1 = buscarRaiz(x,padres);
 	lucas s2 = buscarRaiz(y,padres);

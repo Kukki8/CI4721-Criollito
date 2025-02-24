@@ -73,7 +73,7 @@
 "cuadre"                      { return TkPair; }
 "pastelero"                   { return TkUnion; }
 nubecita[^\n]*\n              { yycolumn = 1; }
-"manito"                      { return TkPointer; }
+"~"                           { return TkPointer; }
 [[:alpha:]_][[:alnum:]_]*     { return TkID; }
 [0-9]+                        { yylval.integer = atoi(yytext); return TkInt; }
 [0-9]+\.[0-9]+                { yylval.flotante = atof(yytext); return TkFloat; }

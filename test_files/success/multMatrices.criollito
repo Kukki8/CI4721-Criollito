@@ -1,4 +1,4 @@
-lucas[][] mulMat(lucas[][]👉 aa, lucas[][]👉 b) {
+lucas[][] mulMat(lucas[][] ~aa, lucas[][] ~b) {
 	lucas r1 = aa.sais();
 	lucas c1 = aa[0].sais();
 	lucas r2 = b.sais();
