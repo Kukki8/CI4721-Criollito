@@ -81,6 +81,7 @@ statement:
     | arrayAssignment
     | registerElementAssignment
     | functionCall
+    | dotOperator TkSemicolon
     | TkBreak TkSemicolon
     | TkContinue TkSemicolon
 ;
@@ -178,7 +179,7 @@ declaration:
 
 type:
     baseType
-    | arrayType
+    | array
 ;
 
 baseType:
@@ -191,10 +192,6 @@ baseType:
 ;
 
 array:
-    TkID arraySize
-;
-
-arrayType:
     baseType arraySize
 ;
 
