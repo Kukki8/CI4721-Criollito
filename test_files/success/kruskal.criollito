@@ -1,3 +1,6 @@
+listaPrioridad nuevaLista;
+nuevaLista.elementos = Arista[aristas.sais()];
+
 saime Grafito {
 	Arista[] aristas;
 	lucas vertices;

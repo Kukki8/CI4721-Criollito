@@ -8,6 +8,7 @@ using namespace std;
 
 extern int yylex();
 extern int yylineno;
+extern int yycolumn;
 extern char* yytext;
 extern void yyerror(const char*);
 
@@ -40,6 +41,7 @@ extern queue<string> errors;
 %nonassoc TkTrue TkFalse
 
 %define parse.error detailed
+%define parse.trace
 
 // Definicion de tipos 
 
@@ -76,6 +78,8 @@ statement:
     | while
     | return
     | assignment
+    | arrayAssignment
+    | registerElementAssignment
     | functionCall
     | TkBreak TkSemicolon
     | TkContinue TkSemicolon
@@ -110,8 +114,16 @@ functionArgument:
 assignment:
     TkID TkAssignment expression TkSemicolon
     | TkID TkAssignment boolExpression TkSemicolon
-    | array TkAssignment expression TkSemicolon
+;
+
+arrayAssignment:
+    array TkAssignment expression TkSemicolon
     | array TkAssignment boolExpression TkSemicolon
+;
+
+registerElementAssignment:
+    registerElement TkAssignment expression TkSemicolon
+    | registerElement TkAssignment boolExpression TkSemicolon
 ;
 
 if:
@@ -147,7 +159,7 @@ while:
 ;
 
 range:
-     TkInt TkTo TkInt
+    TkInt TkTo TkInt
 ;
 
 return:
@@ -166,7 +178,7 @@ declaration:
 
 type:
     baseType
-    | array
+    | arrayType
 ;
 
 baseType:
@@ -179,7 +191,11 @@ baseType:
 ;
 
 array:
-     baseType arraySize
+    TkID arraySize
+;
+
+arrayType:
+    baseType arraySize
 ;
 
 arraySize:
@@ -222,6 +238,10 @@ registerList:
     | registerList type TkID TkSemicolon
 ;
 
+registerElement:
+    TkID TkDot TkID
+;
+
 expression:
     TkInt
     | TkFloat
@@ -257,15 +277,21 @@ boolExpression:
 ;
 
 dotOperator:
-  TkID TkDot functionCallVal
-  | TkID TkDot TkID
-  | TkID TkDot array
-  | TkID TkDot dotOperator
+    TkID TkDot dotOptions
+    | dotOperator TkID TkDot dotOptions
 ;
+
+dotOptions:
+    TkID
+    | functionCallVal
+    | array
+;
+
 %%
 
 void yyerror(const char *str) {
     cerr << "¡Epale!, tienes este error: " << str << endl;
     cerr << "en la línea " << yylineno << endl;
+    cerr << "en la columna " << yycolumn << endl;
 }
 

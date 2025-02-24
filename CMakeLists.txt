@@ -9,7 +9,7 @@ find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
 
 FLEX_TARGET(Lexer src/lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.cpp)
-BISON_TARGET(Parser src/parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.cpp COMPILE_FLAGS -Wcex)
+BISON_TARGET(Parser src/parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.cpp COMPILE_FLAGS "-Wcex -v")
 ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
 # Headers
