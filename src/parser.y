@@ -32,13 +32,15 @@ extern queue<string> errors;
 %left TkOr
 %left TkAnd
 %left TkEquiv TkNotEquiv
-%left TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
 %left TkPlus TkMinus
 %left TkDiv TkModule
 %left TkPower
+%left TkLessThan TkLessEqThan TkGreaterThan TkGreaterEqThan
 %left TkTypeBool TkTypeInt TkTypeFloat TkTypeChar TkTypeString TkTypeVoid
 %right TkNot
 %nonassoc TkTrue TkFalse
+%precedence TkDot
+%precedence TkID
 
 %define parse.error detailed
 %define parse.trace
@@ -79,7 +81,6 @@ statement:
     | return
     | assignment
     | arrayAssignment
-    | registerElementAssignment
     | functionCall
     | dotOperator TkSemicolon
     | TkBreak TkSemicolon
@@ -109,22 +110,20 @@ functionArgument:
     // lambda
     | expression
     | boolExpression
-    | functionArgument TkComma
+    | functionArgument TkComma expression
+    | functionArgument TkComma boolExpression
 ;
 
 assignment:
     TkID TkAssignment expression TkSemicolon
     | TkID TkAssignment boolExpression TkSemicolon
+    | dotOperator TkAssignment expression TkSemicolon
+    | dotOperator TkAssignment boolExpression TkSemicolon
 ;
 
 arrayAssignment:
     array TkAssignment expression TkSemicolon
     | array TkAssignment boolExpression TkSemicolon
-;
-
-registerElementAssignment:
-    registerElement TkAssignment expression TkSemicolon
-    | registerElement TkAssignment boolExpression TkSemicolon
 ;
 
 if:
@@ -160,7 +159,7 @@ while:
 ;
 
 range:
-    TkInt TkTo TkInt
+    expression TkTo expression
 ;
 
 return:
@@ -235,10 +234,6 @@ registerList:
     | registerList type TkID TkSemicolon
 ;
 
-registerElement:
-    TkID TkDot TkID
-;
-
 expression:
     TkInt
     | TkFloat
@@ -255,6 +250,7 @@ expression:
     | expression TkPower expression
     | expression TkDiv expression
     | expression TkModule expression
+    | TkMinus expression
     | TkOpenPar expression TkClosePar
 ;
 
@@ -275,7 +271,7 @@ boolExpression:
 
 dotOperator:
     TkID TkDot dotOptions
-    | dotOperator TkID TkDot dotOptions
+    | dotOperator TkDot dotOptions
 ;
 
 dotOptions:

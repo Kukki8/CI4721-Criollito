@@ -66,7 +66,7 @@ listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
 
 		conchale porsia (listaDesordenada.elementos[i].valor mayolke listaDesordenada.elementos[j].valor ) {
 			Arista aux = listaDesordenada.elementos[i];
-			listaDesordenada.elementos[i] = listaDesordenada.elementos[j]
+			listaDesordenada.elementos[i] = listaDesordenada.elementos[j];
 			listaDesordenada.elementos[j] = aux;
 		}
 
@@ -80,15 +80,14 @@ listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
 Grafo Kruskal(Grafito👉 grafito) {
 	
 	lucas[n] papa;
-    lucas[n] nivel;
+  lucas[n] nivel;
 
-	para i de 0 a n {
+	para i en 0 a n {
 
 		papa[i] = -1;
 		nivel[i] = 1;
 	}
 
-	// Crear lista de prioridades
 	listaPrioridad aristasOrdenadas = crearListPrioridad(👉grafito.aristas);
 
 	aristasOrdenadas = ordernarLista(aristasOrdenadas);
@@ -102,8 +101,6 @@ Grafo Kruskal(Grafito👉 grafito) {
 		lucas x = arista.origen;
 		lucas y = arista.objetivo;
 
-		// Verificar si hay un ciclo
-
 		porsia (buscarRaiz(x,papa) nosepareceigualito buscarRaiz(y,papa)) {
 			unir(x, y, papa, nivel);
 			resultado = resultado +  w;
@@ -111,7 +108,6 @@ Grafo Kruskal(Grafito👉 grafito) {
 			contadorAristas = contadorAristas + 1;
 		}
 
-		// Verifica que no se pase del limite de las aristas
 		porsia (contadorAristas separeceigualito 👉grafito.vertices - 1) {
 			paralo;
 		}
@@ -120,11 +116,11 @@ Grafo Kruskal(Grafito👉 grafito) {
 
 }
   
-// Funcion que busca la raiz de los sets creados durante el algoritmo
 lucas buscarRaiz(lucas i, lucas[]👉 padres)
 {
-	porsia(padres[i] separeceigualito -1)
+	porsia(padres[i] separeceigualito -1) {
 		fuimonos i;
+  }
 
 	padres[i] = buscarRaiz(padres[i],padres);
 	fuimonos padres[i];
