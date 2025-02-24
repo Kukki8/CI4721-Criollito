@@ -72,8 +72,8 @@
 "saime"                       { return TkRegister; }
 "cuadre"                      { return TkPair; }
 "pastelero"                   { return TkUnion; }
-nubecita[^\n]*\n              { yycolumn = 1; }
-"~"                           { return TkPointer; }
+\xF0\x9F\x93\xAC              { yycolumn = 1;  } /* :speech_balloon: */
+\xF0\x9F\x91\x89              { return TkPointer; } /* :point_right: */
 [[:alpha:]_][[:alnum:]_]*     { return TkID; }
 [0-9]+                        { yylval.integer = atoi(yytext); return TkInt; }
 [0-9]+\.[0-9]+                { yylval.flotante = atof(yytext); return TkFloat; }

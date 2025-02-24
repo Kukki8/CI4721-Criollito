@@ -272,7 +272,7 @@ listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
 
 		conchale porsia (listaDesordenada.elementos[i].valor mayolke listaDesordenada.elementos[j].valor ) {
 			Arista aux = listaDesordenada.elementos[i];
-			listaDesordenada.elementos[i] = listaDesordenada.elementos[j]
+			listaDesordenada.elementos[i] = listaDesordenada.elementos[j];
 			listaDesordenada.elementos[j] = aux;
 		}
 
