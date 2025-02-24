@@ -1,6 +1,6 @@
-lucas[][] mulMat(lucas[][]👉 a, lucas[][]👉 b) {
-	lucas r1 = a.sais();
-	lucas c1 = a[0].sais();
+lucas[][] mulMat(lucas[][]👉 aa, lucas[][]👉 b) {
+	lucas r1 = aa.sais();
+	lucas c1 = aa[0].sais();
 	lucas r2 = b.sais();
 	lucas c2 = b[0].sais();
 	
@@ -19,7 +19,7 @@ lucas[][] mulMat(lucas[][]👉 a, lucas[][]👉 b) {
 			res[i][j] = 0;
 			
 			mientras (k menolke c1) echale pichon {
-				res[i][j] = res[i][j] + a[i][k] * b[k][j];
+				res[i][j] = res[i][j] + aa[i][k] * b[k][j];
 				k = k+1;
 			}
 			j = j+1;

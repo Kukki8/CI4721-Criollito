@@ -271,6 +271,7 @@ boolExpression:
 
 dotOperator:
     TkID TkDot dotOptions
+    | array TkDot dotOptions
     | dotOperator TkDot dotOptions
 ;
 
