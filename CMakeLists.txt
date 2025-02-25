@@ -25,7 +25,6 @@ add_executable(
   Criollito
   src/main.cpp 
   src/sym_table.cpp
-  src/AST.cpp
   ${FLEX_Lexer_OUTPUTS} 
   ${BISON_Parser_OUTPUTS}
 )
