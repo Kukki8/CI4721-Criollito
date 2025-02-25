@@ -144,8 +144,14 @@ functionArgument:
 ;
 
 assignment:
-    TkID TkAssignment expression TkSemicolon
-    | TkID TkAssignment boolExpression TkSemicolon
+    TkID TkAssignment expression TkSemicolon {
+        Symbol sym($1, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
+    | TkID TkAssignment boolExpression TkSemicolon {
+        Symbol sym($1, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
     | dotOperator TkAssignment expression TkSemicolon
     | dotOperator TkAssignment boolExpression TkSemicolon
 ;
@@ -222,7 +228,10 @@ type:
 ;
 
 baseType:
-    TkID
+    TkID {
+        Symbol sym($1, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
     | TkTypeBool
     | TkTypeInt
     | TkTypeFloat
@@ -245,7 +254,10 @@ arraySizeParam:
 ;
 
 pair:
-    TkPair TkOpenPar type TkComma type TkClosePar TkID 
+    TkPair TkOpenPar type TkComma type TkClosePar TkID {
+        Symbol sym($7, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
 ;
 
 pairExpression:
@@ -254,13 +266,19 @@ pairExpression:
 
 //Se agrego "| TkPointer dotOperator" para satisfacer la linea 88 de kruskal "listaPrioridad aristasOrdenadas = crearListPrioridad(👉grafito.aristas);"
 dereference:
-    TkPointer TkID
+    TkPointer TkID {
+        Symbol sym($2, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
     | TkPointer array
     | TkPointer dotOperator
     ;
 
 variant:
-    TkUnion TkID TkOpenBrace variantList TkCloseBrace
+    TkUnion TkID TkOpenBrace variantList TkCloseBrace {
+        Symbol sym($2, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
 ;
 
 variantList:
@@ -269,7 +287,10 @@ variantList:
 ;
 
 register:
-    TkRegister TkID TkOpenBrace registerList TkCloseBrace
+    TkRegister TkID TkOpenBrace registerList TkCloseBrace {
+        Symbol sym($2, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
 ;
 
 registerList:
@@ -282,7 +303,10 @@ expression:
     | TkFloat
     | TkChar
     | TkString
-    | TkID
+    | TkID {
+        Symbol sym($1, Variable, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
     | functionCallVal
     | dotOperator
     | array
