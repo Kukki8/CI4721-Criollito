@@ -96,17 +96,13 @@ statement:
 
 function:
     type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-      Symbol type($1, Type, symTable.get_current_scope());
       Symbol id($2, Function, symTable.get_current_scope());
       symTable.insert_sym(id);
-      symTable.insert_sym(type);
       symTable.push_empty_scope();
     }
     | TkTypeVoid TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-      Symbol type($1, Type, symTable.get_current_scope());
       Symbol id($2, Function, symTable.get_current_scope());
       symTable.insert_sym(id);
-      symTable.insert_sym(type);
       symTable.push_empty_scope();
     }
 ;
@@ -212,7 +208,9 @@ declaration:
       symTable.insert_sym(sym);
     }
     | type assignment
-    | function
+    | function {
+        symTable.pop_scope();
+    }
     | register
     | variant
     | pair
