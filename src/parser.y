@@ -17,7 +17,6 @@ extern void yyerror(const char*);
 extern queue<string> errors;
 
 SymTable symTable;
-extern void test();
 %}
 
 %token TkDot TkComma TkColon TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket TkDereference
@@ -333,8 +332,4 @@ void yyerror(const char *str) {
     cerr << "¡Epale!, tienes este error: " << str << endl;
     cerr << "en la línea " << yylineno << endl;
     cerr << "en la columna " << yycolumn << endl;
-}
-
-void test() {
-    cout << "AHHHH" << endl;
 }
