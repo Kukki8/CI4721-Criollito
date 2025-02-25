@@ -113,18 +113,12 @@ functionParameter:
         Symbol sym($2, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
-    | type dereference {
-        Symbol sym($2, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
-    }
+    | type dereference 
     | functionParameter TkComma type TkID {
         Symbol sym($4, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
-    | functionParameter TkComma type dereference {
-        Symbol sym($4, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
-    }
+    | functionParameter TkComma type dereference
 ;
 
 functionCall:
