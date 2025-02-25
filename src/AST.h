@@ -306,4 +306,7 @@ class Program{
         void traverse_ast(Context context);
 };
 
+typedef Expression* T_Expression;
+typedef class Pair* T_Pair;
+
 #endif

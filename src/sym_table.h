@@ -29,6 +29,7 @@ class Symbol{
         Category m_category;
         Scope m_scope;
         SymType type;
+        void print() const;
         // Falta informacion extra que necesita cada simbolo
 
         // Constructor
@@ -54,6 +55,8 @@ class SymTable{
         void insert_sym(Symbol sym);
 
         Symbol get_sym(Identifier id);
+
+        void print() const;
 
 };
 

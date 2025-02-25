@@ -54,7 +54,7 @@ string str_sym_type(SymType symType){
 
 unordered_map<Identifier, vector<Symbol>> init_dict = {
     {"Int",     {Symbol("Int",      Type, 0)}},
-    {"FLoat",   {Symbol("FLoat",    Type, 0)}},
+    {"Float",   {Symbol("Float",    Type, 0)}},
     {"Bool",    {Symbol("Bool",     Type, 0)}},
     {"Char",    {Symbol("Char",     Type, 0)}},
     {"Array",   {Symbol("Array",    Type, 0)}},
@@ -142,5 +142,18 @@ Symbol SymTable::get_sym(Identifier id){
     return best;
 };
 
+void Symbol::print() const {
+    cout << "Identifier: " << m_id << ", Category: " << m_category << ", Scope: " << m_scope << endl;
+}
 
+void SymTable::print() const {
+    cout << "Symbol Table:" << endl;
+    for (const auto& entry : sym_dict) {
+        cout << "Identifier: " << entry.first << endl;
+        for (const auto& symbol : entry.second) {
+            symbol.print();
+        }
+        cout << endl;
+    }
+}
 

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <queue>
+#include "sym_table.h"
+
 using namespace std;
 
 extern int yylex();
@@ -14,6 +16,8 @@ extern void yyerror(const char*);
 
 extern queue<string> errors;
 
+SymTable symTable;
+Category Variant = Variant;
 %}
 
 %token TkDot TkComma TkColon TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket TkDereference
@@ -53,20 +57,22 @@ extern queue<string> errors;
     float flotante;
     char character;
     char* str;
+    //T_Expression expression_ptr;
+    //T_Pair pair_ptr;
 }
 
-%type <integer> TkInt
+%type <integer> TkInt arraySize
 %type <flotante> TkFloat
 %type <character> TkChar
-%type <str> TkString
-%type <str> TkID 
+%type <str> TkString TkID dereference array dotOperator functionCallVal
+//%type <expression_ptr> arraySizeParam expression pairExpression
 
 %%
 
 // Gramática
 
 program:
-    statements 
+    statements { symTable.print(); }
 ;
 
 statements:
@@ -89,16 +95,36 @@ statement:
 ;
 
 function:
-    type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
-    | TkTypeVoid TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace
+    type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
+      Symbol sym($2, Function, symTable.get_current_scope());
+      symTable.insert_sym(sym);
+      symTable.push_empty_scope();
+    }
+    | TkTypeVoid TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
+      Symbol sym($2, Function, symTable.get_current_scope());
+      symTable.insert_sym(sym);
+      symTable.push_empty_scope();
+    }
 ;
 
 functionParameter:
     // lambda
-    | type TkID
-    | type dereference
-    | functionParameter TkComma type TkID
-    | functionParameter TkComma type dereference
+    | type TkID {
+        Symbol sym($2, Variant, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
+    | type dereference {
+        Symbol sym($2, Variant, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
+    | functionParameter TkComma type TkID {
+        Symbol sym($4, Variant, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
+    | functionParameter TkComma type dereference {
+        Symbol sym($4, Variant, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
 ;
 
 functionCall:
@@ -153,8 +179,14 @@ optionalElse:
 ;
 
 for:
-    TkFor TkID TkIn TkID TkOpenBrace statements TkCloseBrace
-    | TkFor TkID TkIn range TkOpenBrace statements TkCloseBrace
+    TkFor TkID TkIn TkID TkOpenBrace statements TkCloseBrace {
+        Symbol sym($2, Variant, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
+    | TkFor TkID TkIn range TkOpenBrace statements TkCloseBrace {
+        Symbol sym($2, Variant, symTable.get_current_scope());
+        symTable.insert_sym(sym);
+    }
 ;
 
 while:
@@ -171,7 +203,10 @@ return:
 ;
 
 declaration:
-    type TkID TkSemicolon       
+    type TkID TkSemicolon { 
+      Symbol sym($2, Variable, symTable.get_current_scope());
+      symTable.insert_sym(sym);
+    }
     | type assignment
     | function
     | register
@@ -220,7 +255,7 @@ dereference:
     TkPointer TkID
     | TkPointer array
     | TkPointer dotOperator
-;
+    ;
 
 variant:
     TkUnion TkID TkOpenBrace variantList TkCloseBrace

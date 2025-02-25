@@ -16,6 +16,10 @@ ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(include)
 
+# Copy headers to build directory
+file(GLOB HEADER_FILES "src/*.h")
+file(COPY ${HEADER_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 # Source files
 add_executable(
   Criollito
@@ -25,4 +29,3 @@ add_executable(
   ${FLEX_Lexer_OUTPUTS} 
   ${BISON_Parser_OUTPUTS}
 )
-
