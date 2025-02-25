@@ -52,6 +52,40 @@ string str_sym_type(SymType symType){
 
 }
 
+string str_sym_category(Category category){
+
+    string str;
+    switch (category)
+    {
+    case 0:
+        str = "Variable";
+        break;
+    
+    case 1:
+        str = "Type";
+        break;
+    
+    case 2:
+        str = "Struct";
+        break;
+    
+    case 3:
+        str = "Union";
+        break;
+    
+    case 4:
+        str = "Function";
+        break;
+    
+    default:
+        str = "";
+        break;
+    }
+
+    return str;
+
+}
+
 unordered_map<Identifier, vector<Symbol>> init_dict = {};
 
 SymTable::SymTable(){            
@@ -93,17 +127,21 @@ void SymTable::insert_sym(Symbol sym){
     {
         // Si ya existe la entrada, revisar que
         // el simbolo no fue creado anteriormente
-        Scope best_sym_scp = get_sym(sym.m_id).m_scope;
-                
-        if (best_sym_scp == get_current_scope())
-        {
-            throw runtime_error("Symbol already declared: " + sym.m_id);
-        }
+        Scope best_sym_scp;
+        try {
+            best_sym_scp = get_sym(sym.m_id).m_scope;
+        } catch (runtime_error err) {
+            if (best_sym_scp == get_current_scope())
+            {
+                throw runtime_error("Symbol already declared: " + sym.m_id);
+            }
 
-        // Como no existe otra variable con el mismo nombre 
-        // y scope, se agrega al vector
-        sym.m_scope = get_current_scope();
-        sym_dict[sym.m_id].push_back(sym);
+            // Como no existe otra variable con el mismo nombre 
+            // y scope, se agrega al vector
+            sym.m_scope = get_current_scope();
+            sym_dict[sym.m_id].push_back(sym);
+        };
+                
     }
 };
 
@@ -115,7 +153,7 @@ Symbol SymTable::get_sym(Identifier id){
 
     for (Symbol entry : sym_dict[id])
     {
-        if (best.m_scope < entry.m_scope < act_scope)
+        if (best.m_scope < entry.m_scope && entry.m_scope < act_scope)
         {
             // Si el scope del simbolo que vemos es mas 
             // cercano al tope del stack que el scope de best,
@@ -134,17 +172,15 @@ Symbol SymTable::get_sym(Identifier id){
 };
 
 void Symbol::print() const {
-    cout << "Identifier: " << m_id << ", Category: " << m_category << ", Scope: " << m_scope << endl;
+    cout << "Identifier: " << m_id << ", Category: " << str_sym_category(m_category) << ", Scope: " << m_scope << endl;
 }
 
 void SymTable::print() const {
     cout << "Symbol Table:" << endl;
     for (const auto& entry : sym_dict) {
-        cout << "Identifier: " << entry.first << endl;
         for (const auto& symbol : entry.second) {
             symbol.print();
         }
-        cout << endl;
     }
 }
 

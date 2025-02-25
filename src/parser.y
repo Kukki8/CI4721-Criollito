@@ -64,7 +64,8 @@ SymTable symTable;
 %type <flotante> TkFloat
 %type <character> TkChar
 %type <str> TkString TkID TkTypeVoid
-%type <str> dereference array dotOperator functionCallVal type
+%type <str> dereference array dotOperator functionCallVal type function statements statement
+%type <str> assignment for
 //%type <expression_ptr> arraySizeParam expression pairExpression
 
 %%
@@ -96,14 +97,18 @@ statement:
 
 function:
     type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-      Symbol id($2, Function, symTable.get_current_scope());
-      symTable.insert_sym(id);
-      symTable.push_empty_scope();
+        symTable.push_empty_scope();
+        Symbol id($2, Function, symTable.get_current_scope());
+        symTable.insert_sym(id);
+        $$ = $7;
+        symTable.pop_scope();
     }
     | TkTypeVoid TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-      Symbol id($2, Function, symTable.get_current_scope());
-      symTable.insert_sym(id);
-      symTable.push_empty_scope();
+        symTable.push_empty_scope();
+        Symbol id($2, Function, symTable.get_current_scope());
+        symTable.insert_sym(id);
+        $$ = $7;
+        symTable.pop_scope();
     }
 ;
 
@@ -139,12 +144,10 @@ functionArgument:
 
 assignment:
     TkID TkAssignment expression TkSemicolon {
-        Symbol sym($1, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
+        $$ = $1;
     }
     | TkID TkAssignment boolExpression TkSemicolon {
-        Symbol sym($1, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
+        $$ = $1;
     }
     | dotOperator TkAssignment expression TkSemicolon
     | dotOperator TkAssignment boolExpression TkSemicolon
@@ -180,12 +183,18 @@ optionalElse:
 
 for:
     TkFor TkID TkIn TkID TkOpenBrace statements TkCloseBrace {
+        symTable.push_empty_scope();
         Symbol sym($2, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
+        $$ = $6;
+        symTable.push_empty_scope();
     }
     | TkFor TkID TkIn range TkOpenBrace statements TkCloseBrace {
+        symTable.push_empty_scope();
         Symbol sym($2, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
+        $$ = $6;
+        symTable.pop_scope();
     }
 ;
 
@@ -207,7 +216,10 @@ declaration:
       Symbol sym($2, Variable, symTable.get_current_scope());
       symTable.insert_sym(sym);
     }
-    | type assignment
+    | type assignment {
+      Symbol sym($2, Variable, symTable.get_current_scope());
+      symTable.insert_sym(sym);
+    }
     | function {
         symTable.pop_scope();
     }
@@ -282,7 +294,7 @@ variantList:
 
 register:
     TkRegister TkID TkOpenBrace registerList TkCloseBrace {
-        Symbol sym($2, Variable, symTable.get_current_scope());
+        Symbol sym($2, Type, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
 ;
@@ -297,10 +309,7 @@ expression:
     | TkFloat
     | TkChar
     | TkString
-    | TkID {
-        Symbol sym($1, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
-    }
+    | TkID
     | functionCallVal
     | dotOperator
     | array
@@ -331,8 +340,12 @@ boolExpression:
 ;
 
 dotOperator:
-    TkID TkDot dotOptions
-    | array TkDot dotOptions
+    TkID TkDot dotOptions {
+        $$ = $1;
+    }
+    | array TkDot dotOptions {
+        $$ = $1;
+    }
     | dotOperator TkDot dotOptions
 ;
 

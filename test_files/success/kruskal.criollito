@@ -1,12 +1,12 @@
-saime Grafito {
-	Arista[] aristas;
-	lucas vertices;
-}
-
 saime Arista {
 	lucas valor;
 	lucas origen;
 	lucas objetivo;
+}
+
+saime Grafito {
+	Arista[] aristas;
+	lucas vertices;
 }
 
 saime listaPrioridad{
