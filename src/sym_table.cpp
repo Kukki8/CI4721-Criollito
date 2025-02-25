@@ -125,22 +125,28 @@ void SymTable::insert_sym(Symbol sym){
     } 
     else 
     {
-        // Si ya existe la entrada, revisar que
-        // el simbolo no fue creado anteriormente
+        // Existe la entrada en el diccionario
+        // Revisemos los simbolos
         Scope best_sym_scp;
         try {
             best_sym_scp = get_sym(sym.m_id).m_scope;
         } catch (runtime_error err) {
-            if (best_sym_scp == get_current_scope())
-            {
-                throw runtime_error("Symbol already declared: " + sym.m_id);
-            }
-
-            // Como no existe otra variable con el mismo nombre 
-            // y scope, se agrega al vector
+            // No se encontro un simbolo con scope aun en la pila
+            // Por tanto, lo agregamos sin problemas
             sym.m_scope = get_current_scope();
             sym_dict[sym.m_id].push_back(sym);
         };
+
+        // Se encontró un simbolo con scope aun en la pila
+        // Revisemos que no esté en el scope actual
+        if (best_sym_scp == get_current_scope())
+        {
+            throw runtime_error("Symbol already declared: " + sym.m_id);
+        }
+
+        // Como no se existe este simbolo con el scope actual, se agrega
+        sym.m_scope = get_current_scope();
+        sym_dict[sym.m_id].push_back(sym);
                 
     }
 };
