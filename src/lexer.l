@@ -53,12 +53,12 @@
 "en"                          { return TkIn; }
 "de"                          { return TkOf; }
 "a"                           { return TkTo; }
-"calidad"                     { return TkTypeBool; }
-"lucas"                       { return TkTypeInt; }
-"sencillo"                    { return TkTypeFloat; }
-"beta"                        { return TkTypeChar; }
-"labia"                       { return TkTypeString; }
-"vacio"                       { return TkTypeVoid; }
+"calidad"                     { yylval.str = strdup(yytext); return TkTypeBool; }
+"lucas"                       { yylval.str = strdup(yytext); return TkTypeInt; }
+"sencillo"                    { yylval.str = strdup(yytext); return TkTypeFloat; }
+"beta"                        { yylval.str = strdup(yytext); return TkTypeChar; }
+"labia"                       { yylval.str = strdup(yytext); return TkTypeString; }
+"vacio"                       { yylval.str = strdup(yytext); return TkTypeVoid; }
 "conchale porsia"             { return TkElseIf; }
 "porsia"                      { return TkIf; }
 "conchale"                    { return TkElse; }
@@ -74,7 +74,7 @@
 "pastelero"                   { return TkUnion; }
 \xF0\x9F\x93\xAC              { yycolumn = 1;  } /* :speech_balloon: */
 \xF0\x9F\x91\x89              { return TkPointer; } /* :point_right: */
-[[:alpha:]_][[:alnum:]_]*     { return TkID; }
+[[:alpha:]_][[:alnum:]_]*     { yylval.str = strdup(yytext); return TkID; }
 [0-9]+                        { yylval.integer = atoi(yytext); return TkInt; }
 [0-9]+\.[0-9]+                { yylval.flotante = atof(yytext); return TkFloat; }
 \'.\'                         { yylval.integer = yytext[1]; return TkChar; }

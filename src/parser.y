@@ -17,7 +17,7 @@ extern void yyerror(const char*);
 extern queue<string> errors;
 
 SymTable symTable;
-Category Variant = Variant;
+extern void test();
 %}
 
 %token TkDot TkComma TkColon TkSemicolon TkOpenPar TkClosePar TkOpenBracket TkCloseBracket TkDereference
@@ -64,7 +64,8 @@ Category Variant = Variant;
 %type <integer> TkInt arraySize
 %type <flotante> TkFloat
 %type <character> TkChar
-%type <str> TkString TkID dereference array dotOperator functionCallVal
+%type <str> TkString TkID TkTypeVoid
+%type <str> dereference array dotOperator functionCallVal type
 //%type <expression_ptr> arraySizeParam expression pairExpression
 
 %%
@@ -96,13 +97,17 @@ statement:
 
 function:
     type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-      Symbol sym($2, Function, symTable.get_current_scope());
-      symTable.insert_sym(sym);
+      Symbol type($1, Type, symTable.get_current_scope());
+      Symbol id($2, Function, symTable.get_current_scope());
+      symTable.insert_sym(id);
+      symTable.insert_sym(type);
       symTable.push_empty_scope();
     }
     | TkTypeVoid TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-      Symbol sym($2, Function, symTable.get_current_scope());
-      symTable.insert_sym(sym);
+      Symbol type($1, Type, symTable.get_current_scope());
+      Symbol id($2, Function, symTable.get_current_scope());
+      symTable.insert_sym(id);
+      symTable.insert_sym(type);
       symTable.push_empty_scope();
     }
 ;
@@ -110,19 +115,19 @@ function:
 functionParameter:
     // lambda
     | type TkID {
-        Symbol sym($2, Variant, symTable.get_current_scope());
+        Symbol sym($2, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
     | type dereference {
-        Symbol sym($2, Variant, symTable.get_current_scope());
+        Symbol sym($2, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
     | functionParameter TkComma type TkID {
-        Symbol sym($4, Variant, symTable.get_current_scope());
+        Symbol sym($4, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
     | functionParameter TkComma type dereference {
-        Symbol sym($4, Variant, symTable.get_current_scope());
+        Symbol sym($4, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
 ;
@@ -180,11 +185,11 @@ optionalElse:
 
 for:
     TkFor TkID TkIn TkID TkOpenBrace statements TkCloseBrace {
-        Symbol sym($2, Variant, symTable.get_current_scope());
+        Symbol sym($2, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
     | TkFor TkID TkIn range TkOpenBrace statements TkCloseBrace {
-        Symbol sym($2, Variant, symTable.get_current_scope());
+        Symbol sym($2, Variable, symTable.get_current_scope());
         symTable.insert_sym(sym);
     }
 ;
@@ -330,3 +335,6 @@ void yyerror(const char *str) {
     cerr << "en la columna " << yycolumn << endl;
 }
 
+void test() {
+    cout << "AHHHH" << endl;
+}
