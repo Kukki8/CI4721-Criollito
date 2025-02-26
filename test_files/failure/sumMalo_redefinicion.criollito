@@ -1,5 +1,6 @@
 vacio chisme() {
-	lucas r~es = 0;
+	lucas res = 0;
+	lucas res = 1;
 	mientras echale pichon (chevere){
 		lucas numero = rotalo(50);
 		porsia (numero separeceigualito 0) {

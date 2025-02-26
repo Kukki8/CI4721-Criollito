@@ -171,7 +171,7 @@ Symbol SymTable::get_sym(Identifier id){
 
     for (Symbol entry : sym_dict[id])
     {
-        if (best.m_scope < entry.m_scope && entry.m_scope < act_scope)
+        if (best.m_scope < entry.m_scope && entry.m_scope <= act_scope)
         {
             // Si el scope del simbolo que vemos es mas 
             // cercano al tope del stack que el scope de best,
