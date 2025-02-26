@@ -206,8 +206,11 @@ void SymTable::print() const {
         }
     }
 
-    // Ordena por category
-    sort(symbols.begin(), symbols.end(), [](const Symbol& a, const Symbol& b) {
+    // Ordenar los símbolos primero por Scope y luego por Category
+    std::sort(symbols.begin(), symbols.end(), [](const Symbol& a, const Symbol& b) {
+        if (a.m_scope == b.m_scope) {
+            return a.m_category < b.m_category;
+        }
         return a.m_scope < b.m_scope;
     });
 
