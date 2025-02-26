@@ -4,9 +4,12 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <algorithm>
+#include "tabulate.h"
 #include "sym_table.h"
 
 using namespace std;
+using namespace tabulate;
 
 Symbol::Symbol(Identifier identifier, Category category, Scope scope){
     m_id = identifier;
@@ -174,7 +177,7 @@ Symbol SymTable::get_sym(Identifier id){
             // cercano al tope del stack que el scope de best,
             // actualizamos best
             best = entry; 
-        }      
+        }
     }
 
     if (best.m_scope == -1)
@@ -191,11 +194,32 @@ void Symbol::print() const {
 }
 
 void SymTable::print() const {
-    cout << "Symbol Table:" << endl;
+    Table table;
+    int index = 1;
+    std::cout << "Symbol Table:" << std::endl;
+    table.add_row({"#", "Identifier", "Category", "Scope"});
+
+    vector<Symbol> symbols;
     for (const auto& entry : sym_dict) {
         for (const auto& symbol : entry.second) {
-            symbol.print();
+            symbols.push_back(symbol);
         }
     }
+
+    // Ordena por category
+    sort(symbols.begin(), symbols.end(), [](const Symbol& a, const Symbol& b) {
+        return a.m_scope < b.m_scope;
+    });
+
+    for (const auto& symbol : symbols) {
+        table.add_row(RowStream{} << index << symbol.m_id << str_sym_category(symbol.m_category) << symbol.m_scope);
+        index++;
+    }
+
+    table.format()
+        .font_align(FontAlign::center);
+    table[0].format()
+        .color(Color::green);
+    std::cout << table << std::endl;
 }
 
