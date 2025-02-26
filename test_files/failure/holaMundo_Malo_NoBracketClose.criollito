@@ -1,0 +1,3 @@
+vacio chisme() {
+	digalo("Hola mundo");
+

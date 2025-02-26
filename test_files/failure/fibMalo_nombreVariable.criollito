@@ -1,0 +1,11 @@
+lucas nthFibonacci(lucas n) {
+	porsia (n menol=ke 1) {
+		fuimonos n;
+	}
+	fuimonos nthFibonacci(n-1) + nthFibonacci(n-2);
+}
+vacio chisme() {
+	lucas n = rotalo(50);
+	lucas 3error = nthFibonacci(n);
+	digalo(res);
+}
