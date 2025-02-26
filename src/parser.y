@@ -96,19 +96,19 @@ statement:
 ;
 
 function:
-    type TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-        symTable.push_empty_scope();
-        Symbol id($2, Function, symTable.get_current_scope());
-        symTable.insert_sym(id);
-        $$ = $7;
+    type functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
         symTable.pop_scope();
     }
-    | TkTypeVoid TkID TkOpenPar functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-        symTable.push_empty_scope();
-        Symbol id($2, Function, symTable.get_current_scope());
-        symTable.insert_sym(id);
-        $$ = $7;
+    | TkTypeVoid functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
         symTable.pop_scope();
+    }
+;
+
+functionInit:
+    TkID TkOpenPar {
+        Symbol id($1, Function, symTable.get_current_scope());
+        symTable.insert_sym(id);
+        symTable.push_empty_scope();
     }
 ;
 
@@ -159,7 +159,7 @@ arrayAssignment:
 ;
 
 if:
-    TkIf ifExpression optionalElseIf optionalElse
+    ifInit ifExpression optionalElseIf optionalElse { symTable.pop_scope(); }
 ;
 
 ifExpression:
@@ -168,38 +168,54 @@ ifExpression:
 
 optionalElseIf:
     // lambda
-    | elseIfList
+    | elseIfList { symTable.pop_scope(); }
 ;
 
 elseIfList:
-    elseIfList TkElseIf ifExpression
-    | TkElseIf ifExpression
+    elseIfInit ifExpression
+    | elseIfList elseIfInit ifExpression
 ;
 
 optionalElse:
     // lambda
-    | TkElse TkOpenBrace statements TkCloseBrace
+    | elseInit TkOpenBrace statements TkCloseBrace { symTable.pop_scope(); }
+;
+
+ifInit:
+    TkIf { symTable.push_empty_scope(); }
+;
+
+elseInit:
+    TkElse { symTable.push_empty_scope(); }
+;
+
+elseIfInit:
+    TkElseIf { symTable.push_empty_scope(); }
 ;
 
 for:
-    TkFor TkID TkIn TkID TkOpenBrace statements TkCloseBrace {
-        symTable.push_empty_scope();
-        Symbol sym($2, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
-        $$ = $6;
-        symTable.push_empty_scope();
+    forInit TkIn TkID TkOpenBrace statements TkCloseBrace {
+        symTable.pop_scope();
     }
-    | TkFor TkID TkIn range TkOpenBrace statements TkCloseBrace {
-        symTable.push_empty_scope();
-        Symbol sym($2, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
-        $$ = $6;
+    | forInit TkIn range TkOpenBrace statements TkCloseBrace {
         symTable.pop_scope();
     }
 ;
 
+forInit:
+  TkFor TkID { 
+      Symbol sym($2, Variable, symTable.get_current_scope());
+      symTable.insert_sym(sym);
+      symTable.push_empty_scope();
+  }
+;
+
 while:
-    TkWhile TkOpenPar boolExpression TkClosePar TkDo TkOpenBrace statements TkCloseBrace
+    whileInit TkOpenPar boolExpression TkClosePar TkDo TkOpenBrace statements TkCloseBrace { symTable.pop_scope(); }
+;
+
+whileInit:
+    TkWhile { symTable.push_empty_scope(); }
 ;
 
 range:
@@ -220,9 +236,7 @@ declaration:
       Symbol sym($2, Variable, symTable.get_current_scope());
       symTable.insert_sym(sym);
     }
-    | function {
-        symTable.pop_scope();
-    }
+    | function
     | register
     | variant
     | pair
@@ -234,10 +248,7 @@ type:
 ;
 
 baseType:
-    TkID {
-        Symbol sym($1, Variable, symTable.get_current_scope());
-        symTable.insert_sym(sym);
-    }
+    TkID
     | TkTypeBool
     | TkTypeInt
     | TkTypeFloat

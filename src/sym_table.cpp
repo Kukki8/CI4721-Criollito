@@ -86,7 +86,16 @@ string str_sym_category(Category category){
 
 }
 
-unordered_map<Identifier, vector<Symbol>> init_dict = {};
+unordered_map<Identifier, vector<Symbol>> init_dict = {
+    {"Int",     {Symbol("Int",      Type, 0)}},
+    {"Float",   {Symbol("Float",    Type, 0)}},
+    {"Bool",    {Symbol("Bool",     Type, 0)}},
+    {"Char",    {Symbol("Char",     Type, 0)}},
+    {"Array",   {Symbol("Array",    Type, 0)}},
+    {"Pointer", {Symbol("Pointer",  Type, 0)}},
+    {"Read",    {Symbol("Read",     Type, 0)}},
+    {"Print",   {Symbol("Print",    Type, 0)}},
+};
 
 SymTable::SymTable(){            
     sym_dict = init_dict;
