@@ -77,7 +77,7 @@ listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
 Grafo Kruskal(Grafito👉 grafito) {
 	
 	lucas[n] papa;
-  lucas[n] nivel;
+  	lucas[n] nivel;
 
 	para i en 0 a n {
 

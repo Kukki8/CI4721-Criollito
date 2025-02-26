@@ -189,6 +189,50 @@ Symbol SymTable::get_sym(Identifier id){
     return best;
 };
 
+// Version de Monascal
+// Symbol SymTable::get_sym(Identifier id){
+
+//     Symbol* best = NULL;
+//     Symbol* pervasive = NULL;
+
+//     for(Symbol e: sym_dict[id]){
+//         if(e.m_id == id){
+//             if(e.m_scope == 0){
+//                 pervasive = &e;
+//             }else{
+//                 stack <Scope> cp_stk;
+//                 cp_stk = scp_stk;
+
+//                 cout << "He llegado " << id <<  endl;
+
+//                 while(!cp_stk.empty()){
+//                     cout << cp_stk.size() << endl;
+//                     Scope s = cp_stk.top();
+//                     cp_stk.pop();
+
+//                     if(s == e.m_scope){
+//                         best = &e;
+//                         break;
+//                     }else if(best && s == best->m_scope){
+//                         break;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     if(best){
+//         return *best;
+//     }
+
+//     if(!pervasive){
+//         throw runtime_error("Symbol not found: " + id);
+//     }
+    
+//     return *pervasive;
+
+// };
+
 void Symbol::print() const {
     cout << "Identifier: " << m_id << ", Category: " << str_sym_category(m_category) << ", Scope: " << m_scope << endl;
 }
