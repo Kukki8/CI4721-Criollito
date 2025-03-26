@@ -76,6 +76,18 @@ Symbol SymTable::get_sym(const std::string& id) {
     return best;
 }
 
+SymType str_to_symtype(const std::string& type_str) {
+    if (type_str == "calidad") return Bool;
+    if (type_str == "lucas") return Int;
+    if (type_str == "sencillo") return Float;
+    if (type_str == "beta") return Char;
+    if (type_str == "labia") return Array;
+    if (type_str == "apuntador") return Pointer;
+    if (type_str == "vacio") return Void;
+
+    return Int;
+}
+
 void SymTable::print() const {
     Table table;
     int index = 1;
@@ -118,6 +130,7 @@ void SymTable::print() const {
             case Char:    return "Char";
             case Array:   return "Array";
             case Pointer: return "Pointer";
+            case Void:    return "Void";
         }
         return "Unknown";
     };

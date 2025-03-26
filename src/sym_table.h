@@ -27,7 +27,8 @@ enum SymType {
     Bool,     // Booleano
     Char,     // Carácter
     Array,    // Arreglo
-    Pointer   // Puntero
+    Pointer,  // Puntero
+    Void      // Unitario
 };
 
 // Estructura que representa un símbolo dentro de la tabla
@@ -64,5 +65,7 @@ public:
     // Método para imprimir la tabla
     void print() const;
 };
+
+SymType str_to_symtype(const std::string& type_str); // Traducir tipos
 
 #endif // SYM_TABLE

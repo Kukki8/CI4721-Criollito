@@ -113,12 +113,14 @@ functionInit:
 functionParameter:
     // lambda
     | type TkID {
-        Symbol sym($2, Variable, symTable.get_current_scope());
+        SymType type = str_to_symtype($1);
+        Symbol sym($2, Variable, symTable.get_current_scope(), type);
         symTable.insert_sym(sym);
     }
     | type dereference 
     | functionParameter TkComma type TkID {
-        Symbol sym($4, Variable, symTable.get_current_scope());
+        SymType type = str_to_symtype($3);
+        Symbol sym($4, Variable, symTable.get_current_scope(), type);
         symTable.insert_sym(sym);
     }
     | functionParameter TkComma type dereference
@@ -227,11 +229,13 @@ return:
 
 declaration:
     type TkID TkSemicolon { 
-      Symbol sym($2, Variable, symTable.get_current_scope());
+      SymType type = str_to_symtype($1);
+      Symbol sym($2, Variable, symTable.get_current_scope(), type);
       symTable.insert_sym(sym);
     }
     | type assignment {
-      Symbol sym($2, Variable, symTable.get_current_scope());
+      SymType type = str_to_symtype($1);
+      Symbol sym($2, Variable, symTable.get_current_scope(), type);
       symTable.insert_sym(sym);
     }
     | function
@@ -270,7 +274,8 @@ arraySizeParam:
 
 pair:
     TkPair TkOpenPar type TkComma type TkClosePar TkID {
-        Symbol sym($7, Variable, symTable.get_current_scope());
+        SymType type = str_to_symtype($3);
+        Symbol sym($7, Variable, symTable.get_current_scope(), type);
         symTable.insert_sym(sym);
     }
 ;
@@ -282,7 +287,8 @@ pairExpression:
 //Se agrego "| TkPointer dotOperator" para satisfacer la linea 88 de kruskal "listaPrioridad aristasOrdenadas = crearListPrioridad(👉grafito.aristas);"
 dereference:
     TkPointer TkID {
-        Symbol sym($2, Variable, symTable.get_current_scope());
+        SymType type = str_to_symtype("apuntador");
+        Symbol sym($2, Variable, symTable.get_current_scope(), type);
         symTable.insert_sym(sym);
     }
     | TkPointer array
