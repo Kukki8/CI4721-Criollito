@@ -1,63 +1,68 @@
 #ifndef SYM_TABLE
 #define SYM_TABLE
 
-#include <vector>
-#include <string>
 #include <unordered_map>
 #include <vector>
 #include <stack>
+#include <string>
+#include <stdexcept>
+#include <algorithm>
+#include "tabulate.h" // Para la impresión mejorada
 
-using namespace std;
+using namespace tabulate; // Espacio de nombres para tabulate
 
-// El scope de un simbolo es un int
-typedef int Scope; 
-
-// El identificador de un simbolo es un string
-typedef string Identifier; 
-
-// Distintas categorias que puede tener un simbolo
-enum Category {Variable, Type, Struct, Union, Function};
+// Distintas categorías que puede tener un símbolo
+enum Category {
+    Variable, // Representa variables
+    Type,     // Representa tipos de datos
+    Struct,   // Representa estructuras
+    Union,    // Representa uniones
+    Function  // Representa funciones
+};
 
 // Tipos que pueden tener las variables
-enum SymType {Int, Float, Bool, Char, Array, Pointer};
-
-// Clase para representar un simbolo
-class Symbol{
-
-    public:
-        Identifier m_id;
-        Category m_category;
-        Scope m_scope;
-        SymType type;
-        void print() const;
-        // Falta informacion extra que necesita cada simbolo
-
-        // Constructor
-        Symbol(Identifier identifier, Category category, Scope scope = -1);
+enum SymType {
+    Int,      // Entero
+    Float,    // Flotante
+    Bool,     // Booleano
+    Char,     // Carácter
+    Array,    // Arreglo
+    Pointer   // Puntero
 };
 
-// Clase que representa la tabla de simbolos
-class SymTable{
+// Estructura que representa un símbolo dentro de la tabla
+struct Symbol {
+    std::string m_id;      // Identificador único del símbolo
+    Category m_category;   // Categoría del símbolo
+    int m_scope;           // Scope (nivel de contexto donde está definido)
+    SymType m_type;        // Tipo de variable (solo aplicable si es Variable)
 
-    public:
-        unordered_map<Identifier, vector<Symbol>> sym_dict;
-        stack<Scope> scp_stk;    
-        Scope next_scp;
-
-        SymTable();
-
-        int get_current_scope();
-
-        void push_empty_scope();
-
-        void pop_scope();
-
-        void insert_sym(Symbol sym);
-
-        Symbol get_sym(Identifier id);
-
-        void print() const;
-
+    // Constructor para inicializar un símbolo
+    Symbol(std::string id, Category category, int scope = -1, SymType type = Int) 
+        : m_id(id), m_category(category), m_scope(scope), m_type(type) {}
 };
 
-#endif
+// Clase que representa la tabla de símbolos
+class SymTable {
+private:
+    std::unordered_map<std::string, std::vector<Symbol>> sym_dict; // Diccionario de símbolos
+    std::stack<int> scp_stk; // Pila de scopes activos
+    int next_scp = 1;        // Próximo scope disponible
+
+public:
+    SymTable(); // Constructor para inicializar la tabla de símbolos
+
+    // Métodos para gestionar scopes
+    int get_current_scope(); // Obtener el scope actual
+    void push_empty_scope(); // Crear y entrar en un nuevo scope
+    void pop_scope();        // Salir del scope actual
+
+    // Métodos para gestionar símbolos
+    void insert_sym(const Symbol& sym);    // Insertar un símbolo en la tabla
+    Symbol get_sym(const std::string& id); // Obtener el símbolo más cercano al scope actual
+
+    // Método para imprimir la tabla
+    void print() const;
+};
+
+#endif // SYM_TABLE
