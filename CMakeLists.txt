@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 23)
 find_package(FLEX REQUIRED)
 find_package(BISON REQUIRED)
 
-FLEX_TARGET(Lexer src/lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.cpp)
+FLEX_TARGET(Lexer src/lexer.l ${CMAKE_CURRENT_BINARY_DIR}/lexer.cpp DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/lexer.hpp)
 BISON_TARGET(Parser src/parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.cpp COMPILE_FLAGS "-Wcex -v")
 ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
@@ -25,6 +25,7 @@ add_executable(
   Criollito
   src/main.cpp 
   src/sym_table.cpp
+  src/error_manager.cpp
   ${FLEX_Lexer_OUTPUTS} 
   ${BISON_Parser_OUTPUTS}
 )

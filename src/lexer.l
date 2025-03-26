@@ -8,19 +8,15 @@
     #include <string>
     #include <queue>
     #include "parser.hpp"
+    #include "error_manager.h"
   
     using namespace std;
-
-    queue<string> errors;
 
     char *filename;
 
     string line = "";
   
     int yycolumn = 1;
-
-    void addError();
-
 %}
 
 %%
@@ -82,15 +78,7 @@
 [\t]                          { yycolumn++; }
 [ ]                           { }
 \n                            { yycolumn = 1; }
-.                             { addError(); }
+.                             { addError("Esto está malo, chic@. Acomoda ese " + std::string(yytext) +
+                               " en la línea " + std::to_string(yylineno) +
+                               " y columna " + std::to_string(yycolumn - yyleng)); }
 %%
-
-void addError() {
-    std::string token = yytext;
-    std::string error = "Esto está malo, chic@. Acomoda ese " + token + " loco que está ahí por la línea " + std::to_string(yylineno) + " en la columna " + std::to_string(yycolumn - yyleng) + ", al lado del kiosko.\n";
-
-    // Imprimir el error en stderr
-    fprintf(stderr, "%s", error.c_str());
-    
-    errors.push(error);
-}

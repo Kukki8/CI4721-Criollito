@@ -1,6 +1,8 @@
 #include <iostream>
 #include "parser.hpp"
+#include "lexer.hpp"
 #include "sym_table.h"
+#include "error_manager.h"
 
 extern FILE* yyin;
 
@@ -12,16 +14,21 @@ int main(int argc, char** argv) {
 
     SymTable symTable = SymTable();
 
-    // Abrir el archivo de entrada
+    // Lexical analysis
     yyin = fopen(argv[1], "r");
     if (!yyin) {
         std::cerr << "No se pudo abrir el archivo" << std::endl;
         return 1;
     }
-
-    // yydebug = 1;
+    while(yylex() != 0);
+    if (hasErrors()) {
+      printErrors();
+    }
+    fclose(yyin);
 
     // Parsing
+    // yydebug = 1;
+    yyin = fopen(argv[1], "r");
     yyparse();
 
     fclose(yyin);

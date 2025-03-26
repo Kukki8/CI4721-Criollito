@@ -14,8 +14,6 @@ extern int yycolumn;
 extern char* yytext;
 extern void yyerror(const char*);
 
-extern queue<string> errors;
-
 SymTable symTable;
 %}
 
