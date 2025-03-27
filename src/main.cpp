@@ -3,8 +3,10 @@
 #include "lexer.hpp"
 #include "sym_table.h"
 #include "error_manager.h"
+#include "ast.h"
 
 extern FILE* yyin;
+extern ASTNode* root;
 
 int main(int argc, char** argv) {
     if (argc < 2) {
@@ -26,7 +28,7 @@ int main(int argc, char** argv) {
     }
     fclose(yyin);
 
-    // Reset tracking before parsing
+    // Resetear el contador antes del parse
     yylineno = 1;
 
     // Parsing
@@ -35,6 +37,16 @@ int main(int argc, char** argv) {
     yyparse();
 
     fclose(yyin);
+    printAST(root, 0);
     return 0;
+}
+
+void printAST(ASTNode* node, int depth) {
+    if (!node) return;
+    for (int i = 0; i < depth; i++) std::cout << "  "; // Indent by depth
+    std::cout << node->value << std::endl;
+    for (ASTNode* child : node->children) {
+        printAST(child, depth + 1);
+    }
 }
 

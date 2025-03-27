@@ -5,6 +5,7 @@
 #include <string>
 #include <queue>
 #include "sym_table.h"
+#include "ast.h"
 
 using namespace std;
 
@@ -54,6 +55,7 @@ SymTable symTable;
     float flotante;
     char character;
     char* str;
+    ASTNode* node;
     //T_Expression expression_ptr;
     //T_Pair pair_ptr;
 }
@@ -64,6 +66,8 @@ SymTable symTable;
 %type <str> TkString TkID TkTypeVoid
 %type <str> dereference array dotOperator functionCallVal type function statements statement
 %type <str> assignment for
+//%type <node> program statements statement expression assignment functionCall 
+//Falta agregar las demas producciones
 //%type <expression_ptr> arraySizeParam expression pairExpression
 
 %%
@@ -71,12 +75,22 @@ SymTable symTable;
 // Gramática
 
 program:
-    statements { symTable.print(); }
+    statements { 
+        symTable.print();
+        $$ = new ASTNode(AST_PROGRAM, "program");
+        $$->addChild($1); 
+    }
 ;
 
 statements:
-    statement
-    | statements statement
+    statement {
+        $$ = new ASTNode(AST_STATEMENT, "statements");
+        $$->addChild($1);
+    }
+    | statements statement {
+        $$ = $1; // Reuse the existing node
+        $$->addChild($2);
+    }
 ;
 
 statement:
@@ -131,7 +145,10 @@ functionCall:
 ;
 
 functionCallVal:
-    TkID TkOpenPar functionArgument TkClosePar
+    TkID TkOpenPar functionArgument TkClosePar {
+        $$ = new ASTNode(AST_FUNCTION_CALL, $1); 
+        $$->addChild($3);
+    }
 ;
 
 functionArgument:
@@ -144,10 +161,12 @@ functionArgument:
 
 assignment:
     TkID TkAssignment expression TkSemicolon {
-        $$ = $1;
+        $$ = new ASTNode(AST_ASSIGNMENT, $1); // $1 is the identifier
+        $$->addChild($3); // $3 is the expression node
     }
     | TkID TkAssignment boolExpression TkSemicolon {
-        $$ = $1;
+        $$ = new ASTNode(AST_ASSIGNMENT, $1); // $1 is the identifier
+        $$->addChild($3); // $3 is the expression node
     }
     | dotOperator TkAssignment expression TkSemicolon
     | dotOperator TkAssignment boolExpression TkSemicolon
