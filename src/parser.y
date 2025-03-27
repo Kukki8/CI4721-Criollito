@@ -88,7 +88,7 @@ statements:
         $$->addChild($1);
     }
     | statements statement {
-        $$ = $1; // Reuse the existing node
+        $$ = $1;
         $$->addChild($2);
     }
 ;
