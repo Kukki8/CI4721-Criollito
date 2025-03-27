@@ -161,11 +161,11 @@ functionArgument:
 
 assignment:
     TkID TkAssignment expression TkSemicolon {
-        $$ = new ASTNode(AST_ASSIGNMENT, $1); // $1 is the identifier
+        $$ = new ASTNode(AST_ASSIGNMENT, $1); 
         $$->addChild($3); // $3 is the expression node
     }
     | TkID TkAssignment boolExpression TkSemicolon {
-        $$ = new ASTNode(AST_ASSIGNMENT, $1); // $1 is the identifier
+        $$ = new ASTNode(AST_ASSIGNMENT, $1); 
         $$->addChild($3); // $3 is the expression node
     }
     | dotOperator TkAssignment expression TkSemicolon
