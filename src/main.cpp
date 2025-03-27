@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 
 void printAST(ASTNode* node, int depth) {
     if (!node) return;
-    for (int i = 0; i < depth; i++) std::cout << "  "; // Indent by depth
+    for (int i = 0; i < depth; i++) std::cout << "  "; 
     std::cout << node->value << std::endl;
     for (ASTNode* child : node->children) {
         printAST(child, depth + 1);
