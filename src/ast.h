@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 enum ASTNodeType {
     AST_PROGRAM,
     AST_STATEMENT,
@@ -17,10 +19,10 @@ enum ASTNodeType {
 class ASTNode {
     public:
         ASTNodeType type;
-        std::string value; // For literal values or identifiers
-        std::vector<ASTNode*> children; // Child nodes
+        string value; 
+        vector<ASTNode*> children; 
 
-        ASTNode(ASTNodeType t, const std::string& v) : type(t), value(v) {}
+        ASTNode(ASTNodeType t, const string& v) : type(t), value(v) {}
         ~ASTNode() {
             for (ASTNode* child : children) {
                 delete child;
