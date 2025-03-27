@@ -26,6 +26,9 @@ int main(int argc, char** argv) {
     }
     fclose(yyin);
 
+    // Reset tracking before parsing
+    yylineno = 1;
+
     // Parsing
     // yydebug = 1;
     yyin = fopen(argv[1], "r");
