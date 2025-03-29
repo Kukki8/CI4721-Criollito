@@ -13,25 +13,67 @@ enum ASTNodeType {
     AST_FUNCTION_CALL,
     AST_ASSIGNMENT,
     AST_IF,
-    // Creo que faltan mas para el resto de las producciones
+    AST_IF_EXPR,
+    AST_ELSEIF_LIST,
+    AST_ELSEIF,
+    AST_ELSE,
+    AST_IF_INIT,
+    AST_ELSE_INIT,
+    AST_ELSEIF_INIT,
+    AST_DECLARATION,
+    AST_BASETYPE,
+    AST_DOT_OPERATOR,
+    AST_ID,
+    AST_TYPE,
+    AST_FUNCTION,
+    AST_FUNCTION_INIT,
+    AST_PARAM_LIST,
+    AST_PARAM,
+    AST_ARG_LIST,
+    AST_INT,
+    AST_FLOAT,
+    AST_CHAR,
+    AST_STRING,
+    AST_BOOL,
+    AST_BIN_OP,
+    AST_UN_OP,
+    AST_ARRAY,
+    AST_ARRAY_SIZE,
+    AST_ARRAY_SIZE_PARAM,
+    AST_PAIR,
+    AST_PAIR_EXPR,
+    AST_DEREFERENCE,
+    AST_VARIANT,
+    AST_VARIANT_LIST,
+    AST_VARIANT_LIST_ITEM,
+    AST_REGISTER,
+    AST_REGISTER_LIST,
+    AST_REGISTER_ITEM,
+    AST_FOR,
+    AST_FOR_INIT,
+    AST_WHILE,
+    AST_WHILE_INIT,
+    AST_RANGE,
+    AST_RETURN
 };
 
 class ASTNode {
-    public:
-        ASTNodeType type;
-        string value; 
-        vector<ASTNode*> children; 
+public:
+    ASTNodeType type;
+    string value;
+    vector<ASTNode*> children;
 
-        ASTNode(ASTNodeType t, const string& v) : type(t), value(v) {}
-        ~ASTNode() {
-            for (ASTNode* child : children) {
-                delete child;
-            }
-        }
+    // Declaración del constructor y del destructor.
+    ASTNode(ASTNodeType t, const string& v);
+    ~ASTNode();
 
-        void addChild(ASTNode* child) {
-            children.push_back(child);
-        }
+    // Declaración del método para agregar hijos.
+    void addChild(ASTNode* child);
+
+    void print(int indent = 0) const;
 };
 
-#endif
+std::string getASTNodeTypeName(ASTNodeType type);
+
+#endif // AST_H
+

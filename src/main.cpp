@@ -37,16 +37,13 @@ int main(int argc, char** argv) {
     yyparse();
 
     fclose(yyin);
-    printAST(root, 0);
+
+    if (root) {
+        std::cout << "Árbol Sintáctico Abstracto (AST):" << std::endl;
+        root->print(); 
+    } else {
+        std::cerr << "Error: El árbol sintáctico no se generó correctamente." << std::endl;
+    }
+
     return 0;
 }
-
-void printAST(ASTNode* node, int depth) {
-    if (!node) return;
-    for (int i = 0; i < depth; i++) std::cout << "  "; 
-    std::cout << node->value << std::endl;
-    for (ASTNode* child : node->children) {
-        printAST(child, depth + 1);
-    }
-}
-
