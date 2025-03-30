@@ -56,7 +56,7 @@ listaPrioridad ordernarLista(listaPrioridad listaDesordenada) {
 
 		porsia (j separeceigualito listaDesordenada.elementos.sais()){
 			ronda = ronda + 1;
-			i = 0 ;
+			i = 0;
 			j = 1;
 			palante;
 		}

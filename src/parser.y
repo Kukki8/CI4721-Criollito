@@ -103,17 +103,24 @@ statements:
 ;
 
 statement:
-    declaration
-    | if
-    | for
-    | while
-    | return
-    | assignment
-    | arrayAssignment
-    | functionCall
-    | dotOperator TkSemicolon
-    | TkBreak TkSemicolon
-    | TkContinue TkSemicolon
+    declaration { $$ = $1; }
+    | if { $$ = $1; }
+    | for { $$ = $1; }
+    | while { $$ = $1; }
+    | return { $$ = $1; }
+    | assignment { $$ = $1; }
+    | arrayAssignment { $$ = $1; }
+    | functionCall { $$ = $1; }
+    | dotOperator TkSemicolon { 
+        $$ = new ASTNode(AST_STATEMENT, "dotOperator");
+        $$->addChild($1);
+    }
+    | TkBreak TkSemicolon { 
+        $$ = new ASTNode(AST_STATEMENT, "break");
+    }
+    | TkContinue TkSemicolon { 
+        $$ = new ASTNode(AST_STATEMENT, "continue");
+    }
 ;
 
 function:
@@ -405,7 +412,8 @@ arraySize:
 ;
 
 arraySizeParam:
-    // lambda { $$ = new ASTNode(AST_ARRAY_SIZE_PARAM, ""); }
+    // lambda
+    { $$ = new ASTNode(AST_ARRAY_SIZE_PARAM, ""); }
     | expression { $$ = $1; }
 ;
 
