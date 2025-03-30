@@ -61,6 +61,7 @@ class ASTNode {
 public:
     ASTNodeType type;
     string value;
+    int scope;
     vector<ASTNode*> children;
 
     // Declaración del constructor y del destructor.

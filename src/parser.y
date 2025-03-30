@@ -125,17 +125,21 @@ statement:
 
 function:
     type functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
+        int funcScope = symTable.get_current_scope();
         symTable.pop_scope();
         $$ = new ASTNode(AST_FUNCTION, "function");
+        $$->scope = funcScope;
         $$->addChild($1);
         $$->addChild($2);
         $$->addChild($3);
         $$->addChild($6);
     }
     | TkTypeVoid functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
+        int funcScope = symTable.get_current_scope();
         symTable.pop_scope();
         ASTNode* voidType = new ASTNode(AST_TYPE, "void");
         $$ = new ASTNode(AST_FUNCTION, "function");
+        $$->scope = funcScope;
         $$->addChild(voidType);
         $$->addChild($2);
         $$->addChild($3);
@@ -226,10 +230,14 @@ functionArgument:
 assignment:
     TkID TkAssignment expression TkSemicolon {
         $$ = new ASTNode(AST_ASSIGNMENT, $1); 
+        ASTNode* id = new ASTNode(AST_ID, $1);
+        $$->addChild(id);
         $$->addChild($3);
     }
     | TkID TkAssignment boolExpression TkSemicolon {
         $$ = new ASTNode(AST_ASSIGNMENT, $1); 
+        ASTNode* id = new ASTNode(AST_ID, $1);
+        $$->addChild(id);
         $$->addChild($3);
     }
     | dotOperator TkAssignment expression TkSemicolon {
@@ -258,7 +266,15 @@ arrayAssignment:
 ;
 
 if:
-    ifInit ifExpression optionalElseIf optionalElse { symTable.pop_scope(); $$ = new ASTNode(AST_IF, "if"); $$->addChild($2); $$->addChild($3); $$->addChild($4); }
+    ifInit ifExpression optionalElseIf optionalElse {
+        int ifScope = symTable.get_current_scope();
+        symTable.pop_scope();
+        $$ = new ASTNode(AST_IF, "if");
+        $$->scope = ifScope;
+        $$->addChild($2);
+        $$->addChild($3);
+        $$->addChild($4);
+    }
 ;
 
 ifExpression:
@@ -296,15 +312,19 @@ elseIfInit:
 
 for:
     forInit TkIn TkID TkOpenBrace statements TkCloseBrace {
+        int forScope = symTable.get_current_scope();
         symTable.pop_scope();
         $$ = new ASTNode(AST_FOR, "for");
+        $$->scope = forScope;
         $$->addChild($1);
         $$->addChild(new ASTNode(AST_ID, $3));
         $$->addChild($5);
     }
     | forInit TkIn range TkOpenBrace statements TkCloseBrace {
+        int forScope = symTable.get_current_scope();
         symTable.pop_scope();
         $$ = new ASTNode(AST_FOR, "for");
+        $$->scope = forScope;
         $$->addChild($1);
         $$->addChild($3);
         $$->addChild($5);
@@ -322,8 +342,10 @@ forInit:
 
 while:
     whileInit TkOpenPar boolExpression TkClosePar TkDo TkOpenBrace statements TkCloseBrace {
+        int whileScope = symTable.get_current_scope();
         symTable.pop_scope();
         $$ = new ASTNode(AST_WHILE, "while");
+        $$->scope = whileScope;
         $$->addChild($1);
         $$->addChild($3);
         $$->addChild($7);
@@ -392,7 +414,7 @@ baseType:
 
 array:
     baseType arraySize {
-         $$ = new ASTNode(AST_ARRAY, "array");
+         $$ = new ASTNode(AST_ARRAY, $1->value+$2->value);
          $$->addChild($1);
          $$->addChild($2);
     }
@@ -400,12 +422,12 @@ array:
 
 arraySize:
     TkOpenBracket arraySizeParam TkCloseBracket {
-         $$ = new ASTNode(AST_ARRAY_SIZE, "");
+         $$ = new ASTNode(AST_ARRAY_SIZE, "["+$2->value+"]");
          $$->addChild($2);
     }
     | arraySize TkOpenBracket arraySizeParam TkCloseBracket {
          $$ = $1;
-         ASTNode* tmp = new ASTNode(AST_ARRAY_SIZE, "");
+         ASTNode* tmp = new ASTNode(AST_ARRAY_SIZE, $1->value+"["+$3->value+"]");
          tmp->addChild($3);
          $$->addChild(tmp);
     }

@@ -46,12 +46,12 @@ struct Symbol {
 // Clase que representa la tabla de símbolos
 class SymTable {
 private:
-    std::unordered_map<std::string, std::vector<Symbol>> sym_dict; // Diccionario de símbolos
     std::stack<int> scp_stk; // Pila de scopes activos
     int next_scp = 1;        // Próximo scope disponible
 
 public:
     SymTable(); // Constructor para inicializar la tabla de símbolos
+    std::unordered_map<std::string, std::vector<Symbol>> sym_dict; // Diccionario de símbolos
 
     // Métodos para gestionar scopes
     int get_current_scope(); // Obtener el scope actual

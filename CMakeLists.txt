@@ -27,6 +27,7 @@ add_executable(
   src/sym_table.cpp
   src/error_manager.cpp
   src/ast.cpp
+  src/type_checker.cpp
   ${FLEX_Lexer_OUTPUTS} 
   ${BISON_Parser_OUTPUTS}
 )

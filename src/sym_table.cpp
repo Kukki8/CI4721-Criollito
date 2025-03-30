@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 #include "sym_table.h"
 
@@ -81,6 +82,16 @@ SymType str_to_symtype(const std::string& type_str) {
     if (type_str == "lucas") return Int;
     if (type_str == "sencillo") return Float;
     if (type_str == "beta") return Char;
+    
+    if (type_str.substr(0,6) == "labia[") {
+        if (type_str.back() == ']') {
+            // Tamaño del array
+            std::string numStr = type_str.substr(6, type_str.size() - 7);
+            int arrSize = std::stoi(numStr);
+            return Array;
+        }
+    }
+    
     if (type_str == "labia") return Array;
     if (type_str == "apuntador") return Pointer;
     if (type_str == "vacio") return Void;
