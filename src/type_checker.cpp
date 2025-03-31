@@ -41,9 +41,11 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
         case AST_BIN_OP: {
             SymType left = visit(node->children[0], localScopes);
             SymType right = visit(node->children[1], localScopes);
+            
             if (left != right)
                 error("¡Epale!, tienes este error: El tipo de " + node->children[0]->value + " (" + symtype_to_str(left) + ") no es el mismo tipo que " + 
                         node->children[1]->value + " (" + symtype_to_str(right) + ")");
+            
             return left;
         }
         case AST_UN_OP: return visit(node->children[0], localScopes);
@@ -65,7 +67,7 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
             localScopes.pop_back();
             return retType;
         }
-        case AST_FOR:
+        case AST_FOR: {
             localScopes.push_back(node->scope);
             if(node->children[1]->type == AST_ID){
                 SymType range = visit(node->children[1], localScopes);
@@ -83,16 +85,17 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
             visit(node->children[2], localScopes);
             localScopes.pop_back();
             return Void;
-        case AST_WHILE:
+        }
+        case AST_WHILE: {
             localScopes.push_back(node->scope);
-            SymType expression = visit(node->children[1], localScopes);
-            if(expression != Bool){
+            SymType expr = visit(node->children[1], localScopes);
+            if(expr != Bool){
                 error("¡Epale!, tienes este error: El tipo de " + node->children[1]->value + " no es el indicado (calidad)");
             }
             visit(node->children[2], localScopes); // Cuerpo del while
             localScopes.pop_back();
             return Void;
-
+        }
         case AST_IF: {
             localScopes.push_back(node->scope);
             for (ASTNode* child : node->children)
@@ -108,11 +111,20 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
                 ASTNode* arg = node->children[0];
                 std::string compositeType = "labia[" + arg->value + "]";
                 return Array;
-            } else {
-                if (node->value == "digalo") return Void;
-                Symbol funcSym = local_get_sym(node->value, localScopes, symTable);
-                return funcSym.m_type;
+            }  
+
+            if (node->value == "digalo") return Void;
+            
+            Symbol funcSym = local_get_sym(node->value, localScopes, symTable);
+            int index = 0;
+            for (ASTNode* child : node->children[0]->children){
+                SymType current = visit(child, localScopes);
+                if(current != funcSym.m_args_types[index]){
+                    error("¡Epale!, tienes este error: El tipo de " + child->value + " no es el indicado (" + symtype_to_str(funcSym.m_args_types[index]) + ")");
+                }
             }
+            return funcSym.m_type;
+            
         }
         case AST_VARIANT: {
             localScopes.push_back(node->scope);

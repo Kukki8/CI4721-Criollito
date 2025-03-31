@@ -6,7 +6,6 @@
 #include <queue>
 #include "sym_table.h"
 #include "ast.h"
-#include "type_checker.h"
 
 using namespace std;
 
@@ -89,8 +88,6 @@ program:
         symTable.print();
         root = new ASTNode(AST_PROGRAM, "program");
         root->addChild($1); 
-        TypeChecker* typeChecker = new TypeChecker(symTable);
-        typeChecker->check(root);
     }
 ;
 
@@ -136,6 +133,14 @@ function:
         $$->addChild($2);
         $$->addChild($3);
         $$->addChild($6);
+
+        Symbol funcSymbol = symTable.get_sym($2->value);
+        vector<SymType> argTypes;
+        
+        for (ASTNode* child : $3->children){
+            argTypes.push_back(str_to_symtype(child->value));
+        }
+        funcSymbol.m_args_types = argTypes;
     }
     | TkTypeVoid functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
         int funcScope = symTable.get_current_scope();
@@ -147,6 +152,13 @@ function:
         $$->addChild($2);
         $$->addChild($3);
         $$->addChild($6);
+
+        Symbol funcSymbol = symTable.get_sym($2->value);
+        vector<SymType> argTypes;
+        for (ASTNode* child : $3->children){
+            argTypes.push_back(str_to_symtype(child->value));
+        }
+        funcSymbol.m_args_types = argTypes;
     }
 ;
 

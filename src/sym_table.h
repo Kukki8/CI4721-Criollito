@@ -37,6 +37,7 @@ struct Symbol {
     Category m_category;   // Categoría del símbolo
     int m_scope;           // Scope (nivel de contexto donde está definido)
     SymType m_type;        // Tipo de variable (solo aplicable si es Variable)
+    std::vector<SymType> m_args_types;  // Tipos de los argumentos de una función
 
     // Constructor para inicializar un símbolo
     Symbol(std::string id, Category category, int scope = -1, SymType type = Int) 
