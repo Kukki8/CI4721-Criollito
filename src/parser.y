@@ -6,6 +6,7 @@
 #include <queue>
 #include "sym_table.h"
 #include "ast.h"
+#include "type_checker.h"
 
 using namespace std;
 
@@ -88,6 +89,8 @@ program:
         symTable.print();
         root = new ASTNode(AST_PROGRAM, "program");
         root->addChild($1); 
+        TypeChecker* typeChecker = new TypeChecker(symTable);
+        typeChecker->check(root);
     }
 ;
 

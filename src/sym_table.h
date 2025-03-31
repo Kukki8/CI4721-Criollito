@@ -68,4 +68,5 @@ public:
 
 SymType str_to_symtype(const std::string& type_str); // Traducir tipos
 
+std::string symtype_to_str(SymType symType); // Conseguir nombres de los tipos
 #endif // SYM_TABLE

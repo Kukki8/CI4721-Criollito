@@ -99,6 +99,31 @@ SymType str_to_symtype(const std::string& type_str) {
     return Int;
 }
 
+std::string symtype_to_str(SymType symType)
+{
+    switch (symType)
+    {
+    case Int:
+        return "lucas";
+    case Float:
+        return "sencillo";
+    case Bool:
+        return "calidad";
+    case Char:
+        return "beta";
+    case Array:
+        return "bululu";
+    case Pointer:
+        return "👉";
+    case Void:
+        return "vacio";
+
+    default:
+        return "vacio";
+    }
+    return std::string();
+}
+
 void SymTable::print() const {
     Table table;
     int index = 1;
