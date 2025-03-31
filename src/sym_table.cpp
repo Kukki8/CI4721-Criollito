@@ -175,7 +175,7 @@ void SymTable::print() const {
             symbol.m_id,
             str_category(symbol.m_category),
             std::to_string(symbol.m_scope),
-            symbol.m_category == Variable || symbol.m_category == Type ? str_type(symbol.m_type) : "-"
+            symbol.m_category == Variable || symbol.m_category == Type || symbol.m_category == Function ? str_type(symbol.m_type) : "-"
         });
     }
 

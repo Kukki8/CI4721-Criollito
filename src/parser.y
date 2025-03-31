@@ -133,50 +133,29 @@ statement:
 ;
 
 function:
-    type functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
+    functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
         int funcScope = symTable.get_current_scope();
         symTable.pop_scope();
         $$ = new ASTNode(AST_FUNCTION, "function");
         $$->scope = funcScope;
         $$->addChild($1);
         $$->addChild($2);
-        $$->addChild($3);
-        $$->addChild($6);
-
-        Symbol funcSymbol = symTable.get_sym($2->value);
-        vector<SymType> argTypes;
-        
-        for (ASTNode* child : $3->children){
-            argTypes.push_back(str_to_symtype(child->value));
-        }
-        funcSymbol.m_args_types = argTypes;
-    }
-    | TkTypeVoid functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
-        int funcScope = symTable.get_current_scope();
-        symTable.pop_scope();
-        ASTNode* voidType = new ASTNode(AST_TYPE, "void");
-        $$ = new ASTNode(AST_FUNCTION, "function");
-        $$->scope = funcScope;
-        $$->addChild(voidType);
-        $$->addChild($2);
-        $$->addChild($3);
-        $$->addChild($6);
-
-        Symbol funcSymbol = symTable.get_sym($2->value);
-        vector<SymType> argTypes;
-        for (ASTNode* child : $3->children){
-            argTypes.push_back(str_to_symtype(child->value));
-        }
-        funcSymbol.m_args_types = argTypes;
+        $$->addChild($5);
     }
 ;
 
 functionInit:
-    TkID TkOpenPar {
-        Symbol id($1, Function, symTable.get_current_scope());
+    type TkID TkOpenPar {
+        Symbol id($2, Function, symTable.get_current_scope(), str_to_symtype($1->value));
         symTable.insert_sym(id);
         symTable.push_empty_scope();
-        $$ = new ASTNode(AST_FUNCTION_INIT, $1);
+        $$ = new ASTNode(AST_FUNCTION_INIT, $2);
+    }
+    | TkTypeVoid TkID TkOpenPar {
+        Symbol id($2, Function, symTable.get_current_scope(), Void);
+        symTable.insert_sym(id);
+        symTable.push_empty_scope();
+        $$ = new ASTNode(AST_FUNCTION_INIT, $2);
     }
 ;
 

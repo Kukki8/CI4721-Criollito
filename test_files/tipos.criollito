@@ -1,0 +1,43 @@
+lucas x;
+sencillo y;
+calidad flag;
+calidad velda;
+beta ch;
+
+velda = chevere;
+x = 42;
+y = 3.14;
+flag = chevere;
+ch = 'z';
+
+x = x + 10;
+x = x - 2;
+x = x * 3;
+x = x / 2;
+x = x % 5;
+x = -x;
+y = -y;
+x = (x + 5) * (x - 3);
+
+lucas sumar(lucas x, lucas y) {
+    lucas z = x + y;
+    fuimonos z;
+}
+
+x = sumar(x, 15);
+digalo();
+rotalo("50");
+
+porsia (flag separeceigualito velda) {
+    x = x + 1;
+} conchale {
+    x = x - 1;
+}
+
+mientras (flag separeceigualito velda) echale pichon {
+    x = x + 2;
+    porsia (x mayolke 100) {
+        flag = chimbo;
+    }
+}
+
