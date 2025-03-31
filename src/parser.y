@@ -6,6 +6,7 @@
 #include <queue>
 #include "sym_table.h"
 #include "ast.h"
+#include "type_checker.h"
 
 using namespace std;
 
@@ -88,6 +89,14 @@ program:
         symTable.print();
         root = new ASTNode(AST_PROGRAM, "program");
         root->addChild($1); 
+        root->print();
+        try {
+            TypeChecker checker(symTable);
+            checker.check(root);
+            std::cout << "Type check: éxito." << std::endl;
+        } catch (const std::runtime_error &e) {
+            std::cerr << "Error de tipado: " << e.what() << std::endl;
+        }
     }
 ;
 
@@ -520,11 +529,30 @@ variantList:
 
 register:
     TkRegister TkID TkOpenBrace registerList TkCloseBrace {
-        Symbol sym($2, Type, symTable.get_current_scope());
+        Symbol sym($2, Type, symTable.get_current_scope(), Register);
         symTable.insert_sym(sym);
         $$ = new ASTNode(AST_REGISTER, "register");
         $$->addChild(new ASTNode(AST_ID, $2));
         $$->addChild($4);
+        {
+            std::vector<std::pair<std::string, SymType>> fields;
+            if ($4->children.size() >= 2) {
+                fields.push_back(std::make_pair($4->children[1]->value, str_to_symtype($4->children[0]->value)));
+            }
+            for (size_t i = 2; i < $4->children.size(); i++) {
+                ASTNode* item = $4->children[i];
+                if (item->children.size() >= 2) {
+                    fields.push_back(std::make_pair(item->children[1]->value, str_to_symtype(item->children[0]->value)));
+                }
+            }
+            auto& vec = symTable.sym_dict[$2];
+            for (Symbol& s : vec) {
+                if (s.m_scope == symTable.get_current_scope()) {
+                    s.m_fields = fields;
+                    break;
+                }
+            }
+        }
     }
 ;
 

@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <iostream>
 #include "sym_table.h"
+#include <algorithm>
+#include <stdexcept>
 
 SymTable::SymTable() {
     next_scp = 2; // Comenzamos el siguiente scope en 2 para mantener 1 como el global
@@ -85,7 +87,6 @@ SymType str_to_symtype(const std::string& type_str) {
     
     if (type_str.substr(0,6) == "labia[") {
         if (type_str.back() == ']') {
-            // Tamaño del array
             std::string numStr = type_str.substr(6, type_str.size() - 7);
             int arrSize = std::stoi(numStr);
             return Array;
@@ -95,14 +96,13 @@ SymType str_to_symtype(const std::string& type_str) {
     if (type_str == "labia") return Array;
     if (type_str == "apuntador") return Pointer;
     if (type_str == "vacio") return Void;
-
+    if (type_str == "register") return Register;
+    
     return Int;
 }
 
-std::string symtype_to_str(SymType symType)
-{
-    switch (symType)
-    {
+std::string symtype_to_str(SymType symType) {
+    switch (symType) {
     case Int:
         return "lucas";
     case Float:
@@ -117,11 +117,11 @@ std::string symtype_to_str(SymType symType)
         return "👉";
     case Void:
         return "vacio";
-
+    case Register:
+        return "Register";
     default:
         return "vacio";
     }
-    return std::string();
 }
 
 void SymTable::print() const {
@@ -130,7 +130,6 @@ void SymTable::print() const {
     std::cout << "Symbol Table:" << std::endl;
     table.add_row({"#", "Identifier", "Category", "Scope", "Type"});
 
-    // Recopilar todos los símbolos en un vector
     std::vector<Symbol> symbols;
     for (const auto& entry : sym_dict) {
         for (const auto& symbol : entry.second) {
@@ -138,7 +137,6 @@ void SymTable::print() const {
         }
     }
 
-    // Ordenar los símbolos primero por Scope y luego por Category
     std::sort(symbols.begin(), symbols.end(), [](const Symbol& a, const Symbol& b) {
         if (a.m_scope == b.m_scope) {
             return a.m_category < b.m_category;
@@ -146,7 +144,6 @@ void SymTable::print() const {
         return a.m_scope < b.m_scope;
     });
 
-    // Convertir categoría y tipo en texto
     auto str_category = [](Category category) {
         switch (category) {
             case Variable: return "Variable";
@@ -167,25 +164,22 @@ void SymTable::print() const {
             case Array:   return "Array";
             case Pointer: return "Pointer";
             case Void:    return "Void";
+            case Register:return "Register";
         }
         return "Unknown";
     };
 
-    // Agregar los símbolos a la tabla
     for (const auto& symbol : symbols) {
         table.add_row({
             std::to_string(index++),
             symbol.m_id,
             str_category(symbol.m_category),
             std::to_string(symbol.m_scope),
-            symbol.m_category == Variable ? str_type(symbol.m_type) : "-"
+            symbol.m_category == Variable || symbol.m_category == Type ? str_type(symbol.m_type) : "-"
         });
     }
 
-    // Formatear la tabla para mejor visualización
     table.format().font_align(FontAlign::center);
     table[0].format().font_style({FontStyle::bold}).color(Color::green);
-
-    // Imprimir la tabla
     std::cout << table << std::endl;
 }

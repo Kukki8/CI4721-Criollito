@@ -28,6 +28,7 @@ enum SymType {
     Char,     // Carácter
     Array,    // Arreglo
     Pointer,  // Puntero
+    Register, // Registros
     Void      // Unitario
 };
 
@@ -38,10 +39,12 @@ struct Symbol {
     int m_scope;           // Scope (nivel de contexto donde está definido)
     SymType m_type;        // Tipo de variable (solo aplicable si es Variable)
     std::vector<SymType> m_args_types;  // Tipos de los argumentos de una función
+    // Campos del registro: cada campo se define por su identificador y su tipo.
+    std::vector<std::pair<std::string, SymType>> m_fields;
 
     // Constructor para inicializar un símbolo
-    Symbol(std::string id, Category category, int scope = -1, SymType type = Int) 
-        : m_id(id), m_category(category), m_scope(scope), m_type(type) {}
+    Symbol(const std::string& id, Category cat, int scope, SymType type = Void)
+      : m_id(id), m_category(cat), m_scope(scope), m_type(type) {}
 };
 
 // Clase que representa la tabla de símbolos
