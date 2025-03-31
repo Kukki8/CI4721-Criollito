@@ -83,7 +83,7 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
             visit(node->children[2], localScopes);
             localScopes.pop_back();
             return Void;
-        case AST_WHILE:
+        case AST_WHILE: {
             localScopes.push_back(node->scope);
             SymType expression = visit(node->children[1], localScopes);
             if(expression != Bool){
@@ -92,7 +92,7 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
             visit(node->children[2], localScopes); // Cuerpo del while
             localScopes.pop_back();
             return Void;
-
+        }
         case AST_IF: {
             localScopes.push_back(node->scope);
             for (ASTNode* child : node->children)
@@ -114,6 +114,25 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
                 return funcSym.m_type;
             }
         }
+        case AST_DOT_OPERATOR: {
+            SymType baseType = visit(node->children[0], localScopes);
+            if (baseType != Register)
+                error("El operador punto solo se aplica a registros, pero " + node->children[0]->value + " no es un registro.");
+            Symbol recSym = local_get_sym(node->children[0]->value, localScopes, symTable);
+            std::string fieldName = node->children[1]->value;
+            bool found = false;
+            SymType fieldType = Void;
+            for (const auto& field : recSym.m_fields) {
+                if (field.first == fieldName) {
+                    found = true;
+                    fieldType = field.second;
+                    break;
+                }
+            }
+            if (!found)
+                error("El campo '" + fieldName + "' no existe en el registro '" + recSym.m_id + "'.");
+            return fieldType;
+        }
         case AST_VARIANT: {
             localScopes.push_back(node->scope);
             for (ASTNode* child : node->children[1]->children)
@@ -123,12 +142,7 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
             return Void;
         }
         case AST_REGISTER: {
-            localScopes.push_back(node->scope);
-            for (ASTNode* child : node->children[1]->children)
-                visit(child, localScopes);
-            localScopes.pop_back();
-            // Probablemente deba devolver otro tipo
-            return Void;
+            return Register;
         }
         case AST_PAIR_EXPR: {
             localScopes.push_back(node->scope);

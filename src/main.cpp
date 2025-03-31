@@ -37,21 +37,6 @@ int main(int argc, char** argv) {
     yyin = fopen(argv[1], "r");
     yyparse();
 
-    if (root) {
-      std::cout << "Árbol Sintáctico Abstracto (AST):" << std::endl;
-      root->print();
-
-      try {
-          TypeChecker checker(symTable);
-          checker.check(root);
-          std::cout << "Chequear tipos: éxito." << std::endl;
-      } catch (const std::runtime_error& e) {
-          std::cerr << "Error de tipado: " << e.what() << std::endl;
-      }
-    } else {
-        std::cerr << "Error: El árbol sintáctico no se generó correctamente." << std::endl;
-    }
-
     fclose(yyin);
     return 0;
 }
