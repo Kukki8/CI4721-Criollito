@@ -4,25 +4,42 @@
 TypeChecker::TypeChecker(SymTable& symTable) : symTable(symTable) {}
 
 void TypeChecker::check(ASTNode* root) {
+    errors.clear(); // Limpiar la lista de errores antes de iniciar
     std::vector<int> localScopes;
     localScopes.push_back(1);
     visit(root, localScopes);
+
+    // Imprimir todos los errores acumulados
+    if (!errors.empty()) {
+        for (const auto& errorMsg : errors) {
+            std::cerr << errorMsg << std::endl;
+        }
+        throw std::runtime_error("Esos tipos están raros...\n");
+    }
 }
 
 // Método auxiliar para buscar un símbolo considerando los scopes activos locales.
-Symbol local_get_sym(const std::string& id, const std::vector<int>& localScopes, SymTable& symTable) {
-    if (symTable.sym_dict.find(id) == symTable.sym_dict.end())
-        throw std::runtime_error("Símbolo " + id + " no definido");
+Symbol TypeChecker::local_get_sym(const std::string& id, const std::vector<int>& localScopes, SymTable& symTable) {
+    if (symTable.sym_dict.find(id) == symTable.sym_dict.end()) {
+        // Acumula error si el símbolo no está definido
+        errors.push_back("Símbolo " + id + " no definido.");
+        return Symbol("", Variable, -1); // Retorna un símbolo "nulo"
+    }
+
     Symbol best("", Variable, -1);
     // Iterar por todas las definiciones del identificador
     for (const Symbol& sym : symTable.sym_dict.at(id)) {
-        // Verificar que el scope del símbolo esté en los scopes activos
         if (std::find(localScopes.begin(), localScopes.end(), sym.m_scope) != localScopes.end()) {
             if (sym.m_scope > best.m_scope) best = sym;
         }
     }
-    if (best.m_scope == -1)
-        throw std::runtime_error("Símbolo " + id + " no disponible en el scope actual");
+
+    if (best.m_scope == -1) {
+        // Acumula error si no hay un símbolo en el scope actual
+        errors.push_back("Símbolo " + id + " no disponible en el scope actual.");
+        return Symbol("", Variable, -1); // Retorna un símbolo "nulo"
+    }
+
     return best;
 }
 
@@ -123,8 +140,8 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
                 ASTNode* child = argListNode->children[i];
                 SymType current = visit(child, localScopes);
                 if(current != funcSym.m_args_types[i]){
-                    error("¡Epale!, tienes este error: El tipo de " + child->value + " no es el indicado (" + 
-                          symtype_to_str(funcSym.m_args_types[i]) + ")");
+                    error("¡Epale!, tienes este error: El tipo de " + child->value + " no es el indicado, se esperaba: " + 
+                          symtype_to_str(funcSym.m_args_types[i]));
                 }
             }
             return funcSym.m_type;
@@ -175,7 +192,6 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
     }
 }
 
-
 void TypeChecker::error(const std::string& msg) {
-    throw std::runtime_error(msg);
+    errors.push_back(msg);
 }

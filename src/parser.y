@@ -95,7 +95,7 @@ program:
             checker.check(root);
             std::cout << "Type check: éxito." << std::endl;
         } catch (const std::runtime_error &e) {
-            std::cerr << "Error de tipado: " << e.what() << std::endl;
+            std::cerr << e.what() << std::endl;
         }
     }
 ;

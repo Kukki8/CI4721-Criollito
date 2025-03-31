@@ -24,6 +24,10 @@ lucas sumar(lucas x, lucas y) {
     fuimonos z;
 }
 
+calidad eVelda(calidad x) {
+  fuimonos x;
+}
+
 x = sumar(x, 15);
 digalo();
 rotalo("50");
@@ -39,5 +43,46 @@ mientras (flag separeceigualito velda) echale pichon {
     porsia (x mayolke 100) {
         flag = chimbo;
     }
+}
+
+x = sumar(x, y);
+x = flag;
+ch = x;
+x = x + ch;
+y = eVelda(flag);
+flag = eVelda(ch);
+
+lucas chamo;
+calidad verdaita;
+beta letra;
+sencillo numerito;
+
+chamo = verdaita;
+verdaita = chamo;
+letra = numerito;
+numerito = verdaita;
+
+chamo = letra + chamo;
+verdaita = letra * verdaita;
+numerito = verdaita / chamo;
+
+lucas resultado;
+resultado = sumar(verdaita, numerito);
+calidad estado;
+estado = eVelda(chamo);
+estado = sumar(chamo, letra);
+verdaita = rotalo(chamo);
+letra = digalo();
+
+porsia (numerito nosepareceigualito flag) {
+    chamo = chamo + 1;
+}
+
+mientras (chamo mayol=ke 0) echale pichon {
+    letra = 'a';
+}
+
+porsia (verdaita mayolke letra) {
+    verdaita = chimbo;
 }
 

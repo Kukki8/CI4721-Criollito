@@ -13,8 +13,10 @@ public:
     void check(ASTNode* root);
 private:
     SymTable& symTable;
+    std::vector<std::string> errors;
     SymType visit(ASTNode* node, std::vector<int>& localScopes);
     void error(const std::string& msg);
+    Symbol local_get_sym(const std::string& id, const std::vector<int>& localScopes, SymTable& symTable);
 };
 
 #endif
