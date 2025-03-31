@@ -135,7 +135,21 @@ statement:
 function:
     functionInit functionParameter TkClosePar TkOpenBrace statements TkCloseBrace {
         int funcScope = symTable.get_current_scope();
+        std::vector<SymType> args_types;
+        for (ASTNode* param : $2->children) {
+            if (!param->children.empty()) {
+                std::string typeStr = param->children[0]->value;
+                args_types.push_back(str_to_symtype(typeStr));
+            }
+        }
         symTable.pop_scope();
+        auto& vec = symTable.sym_dict[$1->value];
+        for (auto &sym : vec) {
+            if (sym.m_scope == symTable.get_current_scope()) {
+                sym.m_args_types = args_types;
+                break;
+            }
+        }
         $$ = new ASTNode(AST_FUNCTION, "function");
         $$->scope = funcScope;
         $$->addChild($1);

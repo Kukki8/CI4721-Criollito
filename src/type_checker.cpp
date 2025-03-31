@@ -104,7 +104,6 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
             return (node->type == AST_IF ? Bool : Int);
         }
         case AST_FUNCTION_CALL: {
-            // Si es la función “rotalo”, se procesa de forma especial.
             if (node->value == "rotalo") {
                 if (node->children.size() < 1)
                     error("rotalo: se te olvidó rotarlo, mi pana");
@@ -113,19 +112,24 @@ SymType TypeChecker::visit(ASTNode* node, std::vector<int>& localScopes) {
                 return Array;
             }  
 
-            if (node->value == "digalo") return Void;
-            
+            if (node->value == "digalo")
+                return Void;
+                    
             Symbol funcSym = local_get_sym(node->value, localScopes, symTable);
-            int index = 0;
-            for (ASTNode* child : node->children[0]->children){
+            ASTNode* argListNode = node->children[0];
+            if (funcSym.m_args_types.size() != argListNode->children.size())
+                error("¡Epale!, tienes este error: Número de argumentos en " + node->value + " no coincide con la firma.");
+            for (size_t i = 0; i < argListNode->children.size(); i++){
+                ASTNode* child = argListNode->children[i];
                 SymType current = visit(child, localScopes);
-                if(current != funcSym.m_args_types[index]){
-                    error("¡Epale!, tienes este error: El tipo de " + child->value + " no es el indicado (" + symtype_to_str(funcSym.m_args_types[index]) + ")");
+                if(current != funcSym.m_args_types[i]){
+                    error("¡Epale!, tienes este error: El tipo de " + child->value + " no es el indicado (" + 
+                          symtype_to_str(funcSym.m_args_types[i]) + ")");
                 }
             }
             return funcSym.m_type;
-            
         }
+
         case AST_DOT_OPERATOR: {
             SymType baseType = visit(node->children[0], localScopes);
             if (baseType != Register)
